@@ -78,7 +78,7 @@ function Signin() {
         <img src={logo} alt="Logo" className="w-50 h-18 mx-auto" />
       </div>
       
-      <div className="p-8 w-full max-w-sm border rounded-md shadow-lg bg-white bg-opacity-70">
+      <div className="p-8 w-full max-w-sm border rounded-md shadow-lg bg-white bg-opacity-80">
         <h1 className="text-xl font-bold text-center mb-6">Sign in</h1>
 
         <form onSubmit={handleSubmit} method="POST">
@@ -141,7 +141,7 @@ function Signin() {
       
       <ToastContainer />
         <div 
-        className="absolute right-10  flex flex-col justify-center items-center text-start font-thin"
+        className="absolute -right-3  flex flex-col justify-center items-center text-start font-thin"
         style={{
           padding: '2rem',
           marginRight: '2rem',
