@@ -73,36 +73,75 @@ const AdCreateModal = (props) => {
       });
   }, []);
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  
+  //   try {
+  //     const accessToken = localStorage.getItem("accessToken");
+  //     console.log("accesstoken", accessToken);
+  
+  //     // Send the form data including image URLs (as array of objects with 'url' keys)
+  //     const response = await fetch(`${BACKEND_URL}/api/ads/`, {
+  //       method: "POST",
+  //       headers: {
+  //         // "Content-Type": "application/json",
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //       body: JSON.stringify(formData), // Form data now includes 'ads_images' with 'url' keys
+  //     });
+  //     alert(JSON.stringify(formData))
+
+  //     console.log("response from the login", response);
+  
+  //     if (response.ok) {
+  //       console.log("Ad creation response:", response);
+  //       toast.success("Ad Created successfully.");
+  //       navigate("/");
+  //       toggleModal();
+  //     } else {
+  //       toast.error(response?.data?.message[0] || "Ad not created");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error("Something went wrong. Please try again later.");
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      console.log("accesstoken", accessToken);
+    const accessToken = localStorage.getItem("accessToken");
+    const formDataToSend = new FormData();
   
-      // Send the form data including image URLs (as array of objects with 'url' keys)
-      const response = await fetch(`${BACKEND_URL}/api/ads/`, {
-        method: "POST",
+    // Append all form fields to FormData
+    for (const key in formData) {
+      if (key === "ads_images") {
+        // Append each image file
+        formData[key].forEach((file) => {
+          formDataToSend.append("ads_images", file);
+        });
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
+    }
+  
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/ads/`, formDataToSend, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify(formData), // Form data now includes 'ads_images' with 'url' keys
       });
   
-      console.log("response from the login", response);
-  
-      if (response.ok) {
-        console.log("Ad creation response:", response);
-        toast.success("Ad Created successfully.");
+      if (response.status === 201) {
+        toast.success("Ad created successfully!");
         navigate("/");
         toggleModal();
       } else {
-        toast.error(response?.data?.message[0] || "Ad not created");
+        toast.error("Failed to create ad. Please check the form and try again.");
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong. Please try again later.");
+    } catch (error) {
+      console.error("Error submitting ad:", error);
+      toast.error("An error occurred. Please try again later.");
     }
   };
   
@@ -118,34 +157,41 @@ const AdCreateModal = (props) => {
       [name]: value,
     }));
   };
-
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    const imageUrls = [];
-
-    for (const file of files) {
-      try {
-        // Upload the file directly to S3 using AWS Amplify
-        // const result = await Storage.put(file.name, file, {
-        //   contentType: file.type, // specify the file type
-        // });
-
-        // // Get the file URL after the upload
-        // const fileUrl = await Storage.get(result.key);
-        // imageUrls.push(fileUrl);
-
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        toast.error("Failed to upload image.");
-      }
-    }
-
-    // Update the form data with the uploaded image URLs
     setFormData((prevData) => ({
       ...prevData,
-      ads_images: imageUrls,
+      ads_images: files, // Store the file objects directly
     }));
   };
+  
+  // const handleImageChange = async (e) => {
+  //   const files = Array.from(e.target.files);
+  //   const imageUrls = [];
+
+  //   for (const file of files) {
+  //     try {
+  //       // Upload the file directly to S3 using AWS Amplify
+  //       // const result = await Storage.put(file.name, file, {
+  //       //   contentType: file.type, // specify the file type
+  //       // });
+
+  //       // // Get the file URL after the upload
+  //       // const fileUrl = await Storage.get(result.key);
+  //       // imageUrls.push(fileUrl);
+
+  //     } catch (error) {
+  //       console.error("Error uploading image:", error);
+  //       toast.error("Failed to upload image.");
+  //     }
+  //   }
+
+  //   // Update the form data with the uploaded image URLs
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     ads_images: imageUrls,
+  //   }));
+  // };
 
   
   // Preview images before submit
