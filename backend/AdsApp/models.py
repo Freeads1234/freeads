@@ -62,5 +62,5 @@ class Ads(models.Model):
 
 class AdsImages(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    Ad = models.ForeignKey(Ads, on_delete=models.CASCADE)
+    Ad = models.ForeignKey(Ads, on_delete=models.CASCADE, related_name='ads_images')
     image = models.ImageField(upload_to='ads/images/',null=True)

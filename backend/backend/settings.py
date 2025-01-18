@@ -26,7 +26,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = 'django-insecure-_u3pyt+6c4)hoi2b^(%aq$x4ms_igm%4oyb=fuwl84jfv#*f8='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -147,7 +147,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Or wherever you want to store collected static files
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",  # Ensure this directory exists if you're using it
+# ]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
