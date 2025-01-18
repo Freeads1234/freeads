@@ -42,10 +42,15 @@ class AdsSerializer(serializers.ModelSerializer):
     subcategory_name = serializers.CharField(source='subcategory.name', read_only=True)
     country_name = serializers.CharField(source='Country.name', read_only=True)
     state_name = serializers.CharField(source='State.name', read_only=True)
-    ads_images = AdsImagesSerializer(many=True, write_only=True)
+    ads_images = AdsImagesSerializer(many=True, required=False)
+
     class Meta:
         model = Ads
-        fields = ['id', 'category', 'category_name','subcategory', 'subcategory_name', 'Country','country_name','State' ,'state_name', 'duration', 'caption', 'details', 'contact_details','cost', 'ads_images','is_featured']
+        fields = [
+            'id', 'category', 'category_name', 'subcategory', 'subcategory_name', 
+            'Country', 'country_name', 'State', 'state_name', 'duration', 'caption',
+            'details', 'contact_details', 'cost', 'ads_images', 'is_featured'
+        ]
         extra_kwargs = {
             'category': {'required': True},
             'subcategory': {'required': True},
@@ -59,11 +64,9 @@ class AdsSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        ads_images_data = validated_data.pop('ads_images', [])
+        ads_images_data = self.context['request'].FILES.getlist('ads_images')
         user = self.context['request'].user
         ads = Ads.objects.create(user=user, **validated_data)
-        AdsImages.objects.bulk_create(
-            [AdsImages(Ad=ads, **image_data) for image_data in ads_images_data]
-        )
+        for image_file in ads_images_data:
+            AdsImages.objects.create(Ad=ads, image=image_file)
         return ads
-

@@ -6,7 +6,7 @@ import { BACKEND_URL } from '../config';
 import { ToastContainer, toast } from 'react-toastify';
 import { AuthContext } from '../utils/AuthContext';
 import bg from "../assets/images/bg.jpg";
-import logo from "../assets/images/logo.jpg";
+import logo from "../assets/images/logo.png";
 
 
 function Signin() {

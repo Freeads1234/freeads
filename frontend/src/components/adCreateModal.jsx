@@ -4,7 +4,8 @@ import axios from "../axiosConfig";
 import { ToastContainer, toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 // import { Storage } from "aws-amplify";
-import awsconfig from "../awsconfig";
+// import awsconfig from "../awsconfig";
+
 
 // Storage.configure(awsconfig);
 
@@ -14,7 +15,7 @@ const AdCreateModal = (props) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [states, setStates] = useState([]);
-  const navigate = useNavigate();
+  const navigate=useNavigate()
 
   const [formData, setFormData] = useState({
     caption: "",
@@ -24,8 +25,8 @@ const AdCreateModal = (props) => {
     contact_details: "",
     subcategory: "",
     details: "",
-    country: "", // Fixed the capitalization issue here
-    state: "", // Fixed the capitalization issue here
+    Country: "",
+    State: "",
     ads_images: [],
   });
 
@@ -43,6 +44,7 @@ const AdCreateModal = (props) => {
   }, []);
 
   // Handle country change
+
   const handleCountryChange = (e) => {
     const selectedCountryId = e.target.value;
     const selectedCoutryData = countries.find(
@@ -51,11 +53,11 @@ const AdCreateModal = (props) => {
 
     setFormData((prevData) => ({
       ...prevData,
-      country: selectedCountryId, // Corrected the key name here
-      state: "", // Reset state when country changes
+      Country: selectedCountryId,
+      State: "",
     }));
 
-    // Update states based on the selected country
+    // Update subcategories based on the selected category
     setStates(selectedCoutryData ? selectedCoutryData.states : []);
   };
 
@@ -73,12 +75,12 @@ const AdCreateModal = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const accessToken = localStorage.getItem("accessToken");
-      console.log("accessToken", accessToken);
-
-      // Send the form data including image URLs (as an array of objects with 'url' keys)
+      console.log("accesstoken", accessToken);
+  
+      // Send the form data including image URLs (as array of objects with 'url' keys)
       const response = await fetch(`${BACKEND_URL}/api/ads/`, {
         method: "POST",
         headers: {
@@ -87,22 +89,23 @@ const AdCreateModal = (props) => {
         },
         body: JSON.stringify(formData), // Form data now includes 'ads_images' with 'url' keys
       });
-
+  
+      console.log("response from the login", response);
+  
       if (response.ok) {
-        const result = await response.json(); // Get the response data
-        console.log("Ad creation response:", result);
+        console.log("Ad creation response:", response);
         toast.success("Ad Created successfully.");
         navigate("/");
         toggleModal();
       } else {
-        const errorData = await response.json();
-        toast.error(errorData?.message || "Ad not created");
+        toast.error(response?.data?.message[0] || "Ad not created");
       }
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong. Please try again later.");
     }
   };
+  
 
   const toggleModal = () => {
     props?.setShowModal(!props?.showModal);
@@ -123,13 +126,14 @@ const AdCreateModal = (props) => {
     for (const file of files) {
       try {
         // Upload the file directly to S3 using AWS Amplify
-        const result = await Storage.put(file.name, file, {
-          contentType: file.type, // specify the file type
-        });
+        // const result = await Storage.put(file.name, file, {
+        //   contentType: file.type, // specify the file type
+        // });
 
-        // Get the file URL after the upload
-        const fileUrl = await Storage.get(result.key);
-        imageUrls.push(fileUrl);
+        // // Get the file URL after the upload
+        // const fileUrl = await Storage.get(result.key);
+        // imageUrls.push(fileUrl);
+
       } catch (error) {
         console.error("Error uploading image:", error);
         toast.error("Failed to upload image.");
@@ -143,16 +147,18 @@ const AdCreateModal = (props) => {
     }));
   };
 
+  
   // Preview images before submit
   const previewImages = formData.ads_images.map((image, index) => (
     <div key={index} className="w-20 h-20 mr-2">
       <img
-        src={image} // Directly use the image URL (not image.url)
+        src={image.url} // Access the 'url' key for the image
         alt={`preview-${index}`}
         className="object-cover w-full h-full rounded"
       />
     </div>
   ));
+  
 
   // Handle category change and update subcategories
   const handleCategoryChange = (e) => {
@@ -173,6 +179,15 @@ const AdCreateModal = (props) => {
     );
   };
 
+  // Handle form submission
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Process form data here, e.g., send to API
+  //   console.log("Form Submitted", formData);
+  //   // Optionally close the modal after submission
+  //   setModalOpen(false);
+  // };
+
   return (
     <>
       <div
@@ -182,8 +197,10 @@ const AdCreateModal = (props) => {
         className="overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex justify-center items-center bg-gray-600 bg-opacity-50"
       >
         <div className="relative p-4 w-full max-w-md max-h-full">
+          {/* Modal Content */}
           <div className="relative bg-white rounded-lg shadow">
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
               <h3 className="text-lg font-semibold text-gray-900">
                 Create New Ad
               </h3>
@@ -211,12 +228,13 @@ const AdCreateModal = (props) => {
               </button>
             </div>
 
+            {/* Modal Body */}
             <form className="p-4 md:p-5" onSubmit={handleSubmit}>
               <div className="grid gap-4 mb-4 grid-cols-2">
                 <div className="col-span-2">
                   <label
-                    htmlFor="caption"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
                   >
                     Caption
                   </label>
@@ -226,14 +244,14 @@ const AdCreateModal = (props) => {
                     id="caption"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="Type Ad Caption"
-                    value={formData.caption} // Fixed typo here
+                    value={formData.captiom}
                     onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label
-                    htmlFor="duration"
+                    htmlFor="price"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
                     Duration
@@ -261,7 +279,7 @@ const AdCreateModal = (props) => {
                     name="cost"
                     id="cost"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Cost"
+                    placeholder="Duration"
                     value={formData.cost}
                     onChange={handleChange}
                     required
@@ -278,7 +296,7 @@ const AdCreateModal = (props) => {
                     id="country"
                     name="country"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                    value={formData.country}
+                    value={formData.Country}
                     onChange={handleCountryChange}
                     required
                   >
@@ -292,19 +310,19 @@ const AdCreateModal = (props) => {
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label
-                    htmlFor="state"
+                    htmlFor="subcategory"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
                     State
                   </label>
                   <select
                     id="state"
-                    name="state" // Fixed the capitalization here
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                    value={formData.state} // Fixed the capitalization here
+                    name="State"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
+                    value={formData.State}
                     onChange={handleChange}
                     required
-                    disabled={!formData.country}
+                    disabled={!formData.Country}
                   >
                     <option value="">Select State</option>
                     {states.map((state) => (
@@ -317,7 +335,7 @@ const AdCreateModal = (props) => {
                 <div className="col-span-2 sm:col-span-1">
                   <label
                     htmlFor="category"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
                   >
                     Category
                   </label>
@@ -347,7 +365,7 @@ const AdCreateModal = (props) => {
                   <select
                     id="subcategory"
                     name="subcategory"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
                     value={formData.subcategory}
                     onChange={handleChange}
                     required
@@ -361,49 +379,88 @@ const AdCreateModal = (props) => {
                     ))}
                   </select>
                 </div>
+
                 <div className="col-span-2">
                   <label
                     htmlFor="details"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
                   >
-                    Ad Details
+                    Ad details
                   </label>
                   <textarea
-                    name="details"
                     id="details"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Write Ad details"
+                    name="details"
+                    rows="4"
+                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Write Ad details here"
                     value={formData.details}
                     onChange={handleChange}
                     required
                   />
                 </div>
+                <div className="col-span-2">
+                  <label
+                    htmlFor="contact_details"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
+                  >
+                    Contact Details
+                  </label>
+                  <textarea
+                    id="contact_details"
+                    name="contact_details"
+                    rows="5"
+                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Write Ad contact details here"
+                    value={formData.contact_details}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                {/* Multiple Image Upload */}
+                <div className="col-span-2">
+                  <label
+                    htmlFor="images"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
+                  >
+                    Upload Images
+                  </label>
+                  <input
+                    type="file"
+                    id="images"
+                    name="ads_images"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageChange}
+                    className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none"
+                  />
+                  <div className="flex mt-2">{previewImages}</div>
+                </div>
               </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Upload Images
-                </label>
-                <input
-                  type="file"
-                  onChange={handleImageChange}
-                  multiple
-                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
-                />
-                <div className="flex mt-2">{previewImages}</div>
-              </div>
-              <div className="flex justify-between mt-4">
-                <button
-                  type="submit"
-                  className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+
+              <button
+                type="submit"
+                className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                <svg
+                  className="me-1 -ms-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Create Ad
-                </button>
-              </div>
+                  <path
+                    fillRule="evenodd"
+                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Add new ad
+              </button>
             </form>
           </div>
+          <ToastContainer />
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 };
