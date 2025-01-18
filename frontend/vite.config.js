@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { BACKEND_URL } from './src/config';
 
 // vite.config.js
 export default defineConfig({
@@ -7,14 +8,19 @@ export default defineConfig({
   server: {
     proxy: {
       '/static': {
-        target: 'http://127.0.0.1:8000', 
+        target: `${BACKEND_URL}`, 
+        changeOrigin: true,
+        secure: false,
+      },
+      '/media': {
+        target: `${BACKEND_URL}`, 
         changeOrigin: true,
         secure: false,
       },
       '/admin': {
-        target: 'http://127.0.0.1:8000',
+        target: `${BACKEND_URL}`,
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },

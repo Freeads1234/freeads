@@ -16,7 +16,7 @@ const AdListing = () => {
         // Map the data to the required format and ensure we capture 'isFeatured'
         const fetchedListings = data.map((item) => ({
           id: item.id, // Make sure to add id for tracking key
-          imageUrl: getValidImage(item.ads_images),
+          imageUrl: item.ads_images[0]?.image,
           category: item.category,
           details: item.details,
           price: item.cost,
@@ -49,7 +49,7 @@ const AdListing = () => {
   const getValidImage = (adsImages) => {
     // Find the first image that is not null
     const validImage = adsImages.find(imageObj => imageObj.image !== null);
-    return validImage ? `${BACKEND_URL}${validImage.image}` : ''; // Return the full image URL or an empty string if no valid image exists
+    return validImage.image // Return the full image URL or an empty string if no valid image exists
   };
 
   if (loading) {

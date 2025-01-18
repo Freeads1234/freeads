@@ -1,7 +1,7 @@
 const ProductCard = ({ image, title, description, price, bgColor, buttonColor }) => {
     return (
       <section className={`p-5 py-10 ${bgColor} text-center transform duration-500 hover:-translate-y-2 cursor-pointer`}>
-        <img src="https://freeads-s3-bucket.s3.us-east-1.amazonaws.com/BG+-+sign+in.jpg" alt={title} />
+        <img src={image} alt={title} />
         <div className="space-x-1 flex justify-center mt-10">
           {[...Array(4)].map((_, index) => (
             <svg
