@@ -9,6 +9,7 @@ import { AuthContext } from "./utils/AuthContext";
 import { useState, useEffect } from "react";
 import { BACKEND_URL } from "./config"; // Make sure to import your backend URL here
 import { toast } from "react-toastify";
+import AdListing from "./components/adListing";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -50,6 +51,8 @@ function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/ad-create" element={<AdCreate />} />
             <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="/all-ad" element={<AdListing/>} />
+
           </Routes>
         </BrowserRouter>
       </AuthContext.Provider>

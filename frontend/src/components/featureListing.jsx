@@ -8,24 +8,28 @@ const FeaturedListings = () => {
 
   // Fetch data from placeholder API
   useEffect(() => {
-    // Example API (replace this with your actual API)
-    fetch(`${BACKEND_URL}/api/ads/`) 
+    fetch(`${BACKEND_URL}/api/ads/`)
       .then((response) => response.json())
       .then((data) => {
-        // Example: Using the first 4 listings for this grid
-        console.log("data in teh featured list",data)
-        const fetchedListings = data.slice(0, 4).map((item) => ({
-          image: "https://via.placeholder.com/260x190",
-          category: item.category,
-          details:item.details,
-          price: item.cost, 
-          country:item.Country,
-          contact:item.contact_details,
-          state:item.State,
-          caption:item.caption,
-        }));
+        console.log("data in the featured list", data);
 
-        setListings(fetchedListings);
+        // Filter only featured listings and select the last 4
+        const featuredListings = data
+          .filter((item) => item.is_featured === false) // Filter featured items
+          .slice(-4) // Get the last 4 featured listings
+          .map((item) => ({
+            image: "https://via.placeholder.com/260x190",
+            category: item.category_name,
+            details: item.details,
+            price: item.cost,
+            country: item.country_name,
+            contact: item.contact_details,
+            state: item.state_name,
+            caption: item.caption,
+            isFeatured: item.is_featured, // Assuming the API gives `is_featured` directly
+          }));
+
+        setListings(featuredListings);
         setLoading(false);
       })
       .catch((error) => {
@@ -35,7 +39,7 @@ const FeaturedListings = () => {
   }, []);
 
   if (loading) {
-    return <ShimmerFeature/>;
+    return <ShimmerFeature />;
   }
 
   return (
@@ -46,7 +50,7 @@ const FeaturedListings = () => {
       </h2>
 
       {/* Listings */}
-      <div className="grid grid-col-1 lg::grid-col-2 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8">
         {listings.map((listing, index) => (
           <div
             key={index}
@@ -73,7 +77,7 @@ const FeaturedListings = () => {
 
             {/* Image */}
             <img
-              src={listing?.image}
+              src={listing.image}
               alt="img"
               className="w-full h-[190px] object-cover"
             />
@@ -112,16 +116,14 @@ const FeaturedListings = () => {
                     />
                   </svg>
                 </span>
-                {listing.country},{listing.state}
+                {listing.country}, {listing.state}
               </div>
 
               {/* Date */}
-              <p className="text-gray-500 text-xs mb-2">{listing?.details}</p>
+              <p className="text-gray-500 text-xs mb-2">{listing.details}</p>
 
               {/* Price */}
-              <p className="text-lg font-semibold text-gray-800">
-                {listing.price}
-              </p>
+              <p className="text-lg font-semibold text-gray-800">{listing.price}</p>
             </div>
 
             {/* Underline */}
