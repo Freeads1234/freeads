@@ -78,7 +78,7 @@ function Signin() {
         <img src={logo} alt="Logo" className="w-50 h-18 mx-auto" />
       </div>
       
-      <div className="p-8 w-full max-w-sm border rounded-md shadow-lg bg-white bg-opacity-80">
+      <div className="p-8 w-full max-w-sm border rounded-md shadow-lg bg-white bg-opacity-70">
         <h1 className="text-xl font-bold text-center mb-6">Sign in</h1>
 
         <form onSubmit={handleSubmit} method="POST">

@@ -250,7 +250,7 @@ function Signup({}) {
       </div>
       <ToastContainer />
       <div 
-        className="absolute -right-3  flex flex-col justify-center items-center text-start font-thin"
+        className="absolute -right-3   flex flex-col justify-center items-center text-start font-thin"
         style={{
           padding: '2rem',
           marginRight: '2rem',
