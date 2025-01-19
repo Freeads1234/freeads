@@ -1,5 +1,5 @@
 # Stage 1: Build React app
-FROM node:16 AS react-build
+FROM node:17 AS react-build
 
 # Set working directory for React
 WORKDIR /app/frontend
