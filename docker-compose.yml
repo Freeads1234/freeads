@@ -4,9 +4,9 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=False
-      - DJANGO_ALLOWED_HOSTS=43.204.219.82
+    # environment:
+    #   - DEBUG=False
+    #   - DJANGO_ALLOWED_HOSTS=43.204.219.82
   frontend:
     build: ./frontend
     ports:
