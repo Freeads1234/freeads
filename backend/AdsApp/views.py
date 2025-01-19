@@ -77,8 +77,10 @@ class AdsView(APIView):
         return [AllowAny()]
 
     def get(self, request):
+        print("working")
         ads = Ads.objects.all()
         serializer = AdsSerializer(ads, many=True)
+        print("get")
         return Response(serializer.data)
 
     def post(self, request):
