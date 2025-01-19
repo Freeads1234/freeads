@@ -6,19 +6,19 @@ const FeaturedListings = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch data from placeholder API
+  // Fetch data from the API
   useEffect(() => {
     fetch(`${BACKEND_URL}/api/ads/`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("data in the featured list", data);
-
-        // Filter only featured listings and select the last 4
+        console.log("Data in the featured list:", data);
+  
+        // Filter only non-featured listings and select the last 4
         const featuredListings = data
-          .filter((item) => item.is_featured === false) // Filter featured items
-          .slice(-4) // Get the last 4 featured listings
+          .filter((item) => item.is_featured === false) // Filter non-featured items
+          .slice(-4) // Get the last 4 non-featured listings
           .map((item) => ({
-            image: "https://via.placeholder.com/260x190",
+            image: getValidImage(item.ads_images), // Use actual image URL or fallback to placeholder
             category: item.category_name,
             details: item.details,
             price: item.cost,
@@ -28,7 +28,7 @@ const FeaturedListings = () => {
             caption: item.caption,
             isFeatured: item.is_featured, // Assuming the API gives `is_featured` directly
           }));
-
+  
         setListings(featuredListings);
         setLoading(false);
       })
@@ -37,6 +37,12 @@ const FeaturedListings = () => {
         setLoading(false);
       });
   }, []);
+  
+  const getValidImage = (adsImages) => {
+    // Find the first image that is not null
+    const validImage = adsImages.find((imageObj) => imageObj !== null && imageObj.url !== null);
+    return validImage ? validImage.url : '/path/to/placeholder/image.jpg'; // Return a placeholder image if no valid image is found
+  };
 
   if (loading) {
     return <ShimmerFeature />;
@@ -78,7 +84,7 @@ const FeaturedListings = () => {
             {/* Image */}
             <img
               src={listing.image}
-              alt="img"
+              alt="Listing Image"
               className="w-full h-[190px] object-cover"
             />
 
