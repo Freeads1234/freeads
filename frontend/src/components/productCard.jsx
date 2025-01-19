@@ -14,7 +14,7 @@ const ProductCard = ({ image, title, description, price, bgColor, buttonColor })
             </svg>
           ))}
         </div>
-        <h1 className="text-3xl my-5">{title}</h1>
+        <h1 className="text-3xl my-5 break-words">{title}</h1> {/* Added break-words here */}
         <p className="mb-5">{description}</p>
         <h2 className="font-semibold mb-5">${price}</h2>
         {/* <button className={`p-2 px-6 ${buttonColor} text-white rounded-md hover:bg-opacity-80`}>
@@ -22,6 +22,6 @@ const ProductCard = ({ image, title, description, price, bgColor, buttonColor })
         </button> */}
       </section>
     );
-  };
+};
 
 export default ProductCard;
