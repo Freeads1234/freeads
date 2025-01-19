@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProductCard from "./productCard";
 import { BACKEND_URL } from "../config";
+import { Link } from "react-router-dom";
 
 const AdListing = () => {
   const [products, setProducts] = useState(null);
@@ -50,6 +51,9 @@ const AdListing = () => {
     const validImage = adsImages.find((imageObj) => imageObj.image !== null);
     return validImage.image; // Return the full image URL or an empty string if no valid image exists
   };
+  const handleFilter=()=>{
+    console.log("changeing")
+  }
 
   if (loading) {
     return <div>Loading...</div>; // You can display a loading spinner here
@@ -64,7 +68,7 @@ const AdListing = () => {
       <div className="mb-5">
         <div className="flex flex-col">
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-            <form className="">
+            <form className="" onChange={handleFilter}>
               <div className="relative mb-10 w-full flex  items-center justify-between rounded-md">
                 <svg
                   className="absolute left-2 block h-5 w-5 text-gray-400"
@@ -177,15 +181,17 @@ const AdListing = () => {
 
       <div className="p-5 md:p-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
         {products.map((product) => (
+          <Link to={`/ad/${product.id}`} key={product.id}>
           <ProductCard
-            key={product.id} // Use id as the key for better performance
             image={product.imageUrl}
-            title={product.caption} // Assuming 'caption' is the title of the product
-            description={product.details} // Assuming 'details' is the product description
+            key={product.id} 
+            title={product.caption}
+            description={product.details}
             price={product.price}
-            bgColor={product.bgColor} // Apply random background color
+            bgColor={product.bgColor}
             buttonColor={product.buttonColor}
           />
+        </Link>
         ))}
       </div>
 
