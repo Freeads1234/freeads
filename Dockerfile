@@ -13,7 +13,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # Stage 2: Django (backend)
-FROM python:3.9-slim AS django-build
+FROM python:3.10-slim AS django-build
 
 # Set working directory for Django
 WORKDIR /app
