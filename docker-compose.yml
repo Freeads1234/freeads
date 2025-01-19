@@ -4,6 +4,9 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
+    environment:
+      - DEBUG=False
+      - DJANGO_ALLOWED_HOSTS=13.201.137.144
   frontend:
     build: ./frontend
     ports:
