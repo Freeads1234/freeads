@@ -22,6 +22,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: true,
       },
+      '/api': {
+        target: `${BACKEND_URL}`,
+        changeOrigin: true,
+        secure: true,
+      },
     },
   },
 });
