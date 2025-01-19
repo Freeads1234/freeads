@@ -154,6 +154,28 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Or wherever you want to s
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+# AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_REGION_NAME = "ap-south-1"
+# AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+# AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+# AWS_S3_FILE_OVERWRITE = True
+# AWS_DEFAULT_ACL = None
+
+# STATIC_S3_PATH = "static"
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATIC_ROOT = f"/{STATIC_S3_PATH}/"
+# STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# STATIC_URL = f"http://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/static/"
+# ADMIN_MEDIA_PREFIX = STATIC_URL + "admin/"
+
+# DEFAULT_S3_PATH = "media"
+# MEDIA_ROOT = f"/{DEFAULT_S3_PATH}/"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# MEDIA_URL = f"http://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/media/"
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
