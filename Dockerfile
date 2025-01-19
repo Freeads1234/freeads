@@ -22,7 +22,7 @@ RUN pip install -r requirements.txt
 COPY --from=react-build /app/frontend/dist /app/backend/static/
 
 # Collect static Django
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic
 
 # Expose port and command to run the Django app (adjust to your needs)
 EXPOSE 8000
