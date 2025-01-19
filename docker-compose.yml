@@ -6,7 +6,7 @@ services:
       - "8000:8000"
     environment:
       - DEBUG=False
-      - DJANGO_ALLOWED_HOSTS=13.201.137.144
+      - DJANGO_ALLOWED_HOSTS=43.204.219.82
   frontend:
     build: ./frontend
     ports:
