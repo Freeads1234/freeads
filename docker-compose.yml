@@ -5,6 +5,7 @@ services:
     working_dir: /app
     volumes:
       - ./backend:/app
+      - ./backend/media:/app/media 
     command: >
       bash -c "
         pip install -r requirements.txt &&
