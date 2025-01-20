@@ -26,7 +26,7 @@ export default defineConfig({
     proxy: {
       // Proxy API requests to the Django backend
       '/api': {
-        target: 'http://backend:8000', // Django backend service in Docker Compose
+        target: 'http://backend', // Django backend service in Docker Compose
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''), // Optional: Remove `/api` prefix
       },
