@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import logo from "../assets/images/logo.jpg";
+import logo from "../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import AdCreateModal from "./adCreateModal";
 import { BACKEND_URL } from "../config";
@@ -84,9 +84,13 @@ function Header() {
 
   return (
     <>
-      <header className="flex flex-row items-center justify-between mx-20 my-3 p-2 bg-white">
+      <header className="flex flex-row items-center justify-between mx-10 p-2 bg-white sticky">
         <div>
-          <img src={logo} alt="Logo" className="w-60 h-12" />
+        <Link to="/">
+
+        <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
+        </Link>
+
         </div>
 
         <nav className="hidden sm:flex justify-between items-center gap-4 mt-5">

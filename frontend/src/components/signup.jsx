@@ -114,7 +114,9 @@ function Signup({}) {
       }}
     >
       <div className="absolute top-0 left-0 text-start px-8 py-3">
-        <img src={logo} alt="Logo" className="w-50 h-18 mx-auto" />
+        <Link to="/">
+          <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
+        </Link>{" "}
       </div>
       <div className="w-full max-w-sm bg-white bg-opacity-80 p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6">Sign up</h1>
@@ -249,23 +251,26 @@ function Signup({}) {
         </div>
       </div>
       <ToastContainer />
-      <div 
+      <div
         className="absolute -right-3   flex flex-col justify-center items-center text-start font-thin"
         style={{
-          padding: '2rem',
-          marginRight: '2rem',
-          borderRadius: '8px',
-          maxWidth: '700px',
+          padding: "2rem",
+          marginRight: "2rem",
+          borderRadius: "8px",
+          maxWidth: "700px",
         }}
       >
         <p className="text-5xl">
-          <b className='font-bold'>Advertise </b>your
+          <b className="font-bold">Advertise </b>your
           <br />
           <span className="text-5xl ">Brand, Product & Service</span>
           <br />
           to reach millions
           <br />
-          <span className="text-5xl font-bold"><b>absolutely</b></span> for   <span className="text-5xl font-bold">free</span> 
+          <span className="text-5xl font-bold">
+            <b>absolutely</b>
+          </span>{" "}
+          for <span className="text-5xl font-bold">free</span>
         </p>
       </div>
     </div>
