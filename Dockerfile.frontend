@@ -1,0 +1,18 @@
+# Frontend Dockerfile
+FROM node:20
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY frontend/package.json frontend/package-lock.json /app/
+RUN npm install
+
+# Copy project files
+COPY frontend /app
+
+# Build the frontend
+RUN npm run build
+
+# Expose the build directory for Nginx
+CMD ["npm", "run", "build"]
