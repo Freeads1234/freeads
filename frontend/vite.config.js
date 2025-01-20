@@ -6,7 +6,7 @@ import { BACKEND_URL } from './src/config';
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
+    // proxy: {
       // '/static': {
       //   target: ${BACKEND_URL}, 
       //   changeOrigin: true,
@@ -17,16 +17,16 @@ export default defineConfig({
       //   changeOrigin: true,
       //   secure: false,
       // },
-      '/admin': {
-        target: BACKEND_URL,
-        changeOrigin: true,
-        secure: true,
-      },
-      '/api': {
-        target: BACKEND_URL,
-        changeOrigin: true,
-        secure: true,
-      },
-    },
+      // '/admin': {
+      //   target: BACKEND_URL,
+      //   changeOrigin: true,
+      //   secure: true,
+      // },
+      // '/api': {
+      //   target: BACKEND_URL,
+      //   changeOrigin: true,
+      //   secure: true,
+      // },
+    // },
   },
 });
