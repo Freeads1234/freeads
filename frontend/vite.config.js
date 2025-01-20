@@ -18,15 +18,15 @@ export default defineConfig({
       //   secure: false,
       // },
       '/admin': {
-        target: `${BACKEND_URL}`,
+        target: BACKEND_URL,
         changeOrigin: true,
         secure: true,
       },
-      '/api': {
-        target: `${BACKEND_URL}`,
-        changeOrigin: true,
-        secure: true,
-      },
+      // '/api': {
+      //   target: `${BACKEND_URL}`,
+      //   changeOrigin: true,
+      //   secure: true,
+      // },
     },
   },
 });

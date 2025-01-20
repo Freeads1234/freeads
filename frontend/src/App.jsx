@@ -55,9 +55,6 @@ function App() {
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/all-ad" element={<AdListing/>} />
             <Route path="/ad/:id" element={<AdDetailPage/>} />  {/* Match product detail by ID */}
-
-
-
           </Routes>
         </BrowserRouter>
       </AuthContext.Provider>
