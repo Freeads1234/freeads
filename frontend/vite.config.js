@@ -10,8 +10,8 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist',
-    emptyOutDir: true,
+    outDir: 'dist',  // The build output directory, which will be served by Nginx
+    emptyOutDir: true,  // Clean the directory before each build
     rollupOptions: {
       output: {
         chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -19,5 +19,9 @@ export default defineConfig({
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
+  },
+  server: {
+    // Disable the development server in production mode
+    open: false,
   },
 });
