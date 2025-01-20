@@ -18,7 +18,7 @@ const FeaturedListings = () => {
           .filter((item) => item.is_featured === false) // Filter non-featured items
           .slice(-4) // Get the last 4 non-featured listings
           .map((item) => ({
-            image: getValidImage(item.ads_images), // Use actual image URL or fallback to placeholder
+            image: item.ads_images[0]?.image, // Use actual image URL or fallback to placeholder
             category: item.category_name,
             details: item.details,
             price: item.cost,
@@ -28,7 +28,8 @@ const FeaturedListings = () => {
             caption: item.caption,
             isFeatured: item.is_featured, // Assuming the API gives `is_featured` directly
           }));
-  
+        console.log("featured list:", featuredListings);
+
         setListings(featuredListings);
         setLoading(false);
       })
