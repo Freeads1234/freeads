@@ -1,32 +1,35 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { BACKEND_URL } from './src/config';
+import { resolve } from 'path';
 
-// vite.config.js
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      // '/static': {
-      //   target: `${BACKEND_URL}`, 
-      //   changeOrigin: true,
-      //   secure: false,
-      // },
-      // '/media': {
-      //   target: `${BACKEND_URL}`, 
-      //   changeOrigin: true,
-      //   secure: false,
-      // },
-      '/admin': {
-        target: BACKEND_URL,
-        changeOrigin: true,
-        secure: true,
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'), // Cleaner imports
+    },
+  },
+  build: {
+    outDir: 'dist', // Ensure output matches the Nginx mount point
+    emptyOutDir: true, // Clear the output directory before building
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'assets/js/[name]-[hash].js', // Chunked JS files
+        entryFileNames: 'assets/js/[name]-[hash].js', // Entry JS files
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]', // Static assets
       },
-      // '/api': {
-      //   target: `${BACKEND_URL}`,
-      //   changeOrigin: true,
-      //   secure: true,
-      // },
+    },
+  },
+  server: {
+    host: '0.0.0.0', // Listen on all interfaces (important for Docker)
+    port: 3000, // Local dev port (ignored in production)
+    proxy: {
+      // Proxy API requests to the Django backend
+      '/api': {
+        target: 'http://backend:8000', // Django backend service in Docker Compose
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''), // Optional: Remove `/api` prefix
+      },
     },
   },
 });
