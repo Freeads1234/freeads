@@ -11,7 +11,7 @@ RUN npm install
 # Copy project files
 COPY frontend /app
 
-# Build the frontend
+# Build the frontend for production
 RUN npm run build
 
 # Expose the build directory for Nginx
