@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductCard from "./productCard";
 import { BACKEND_URL } from "../config";
 import { Link } from "react-router-dom";
+import Header from "./header";
 
 const AdListing = () => {
   const [products, setProducts] = useState(null);
@@ -25,7 +26,6 @@ const AdListing = () => {
           state: item.State,
           caption: item.caption,
           isFeatured: item.isFeatured, // Assuming 'isFeatured' is part of the data
-          bgColor: getRandomBgColor(), // Randomly assign one of the background colors
           buttonColor: "bg-blue-500", // You can choose another random color if needed
         }));
 
@@ -39,12 +39,7 @@ const AdListing = () => {
       });
   }, []);
 
-  // Function to randomly select a background color
-  const getRandomBgColor = () => {
-    const bgColors = ["bg-purple-50", "bg-green-50", "bg-red-50"];
-    const randomIndex = Math.floor(Math.random() * bgColors.length);
-    return bgColors[randomIndex];
-  };
+
 
   const getValidImage = (adsImages) => {
     // Find the first image that is not null
@@ -60,6 +55,8 @@ const AdListing = () => {
   }
 
   return (
+    <>
+    <Header/>
     <div className="container mx-auto p-10 md:py-12 px-0 md:p-8 md:px-0">
       <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-800 mb-6 sm:mb-10">
         All Ads
@@ -179,7 +176,7 @@ const AdListing = () => {
         </div>
       </div>
 
-      <div className="p-5 md:p-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
+      <div className="p-5 mx-auto md:p-0 grid grid-cols-1 gap-20 items-start">
         {products.map((product) => (
           <Link to={`/ad/${product.id}`} key={product.id}>
           <ProductCard
@@ -188,7 +185,6 @@ const AdListing = () => {
             title={product.caption}
             description={product.details}
             price={product.price}
-            bgColor={product.bgColor}
             buttonColor={product.buttonColor}
           />
         </Link>
@@ -209,7 +205,9 @@ const AdListing = () => {
 </div>
 
     </div>
+    </>
   );
+  
 };
 
 export default AdListing;
