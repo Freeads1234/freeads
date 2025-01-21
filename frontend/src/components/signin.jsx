@@ -84,14 +84,14 @@ function Signin() {
 
         <form onSubmit={handleSubmit} method="POST">
           {/* Mobile Input */}
-          <div className="mb-4 ">
+          <div className="mb-4">
             <PhoneInput
               id="mobile"
               placeholder="Enter phone number"
               value={mobile}
               onChange={setMobile}
               defaultCountry="IN" // Default country for the phone input
-              className="w-full h-12  rounded-lg px-4 focus:outline-none focus:ring-2 "
+              className="w-full h-12 border border-gray-300 rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               international
             />
           </div>
@@ -111,10 +111,21 @@ function Signin() {
           </div>
 
           {/* Forgot Password Link */}
-          <div className="mb-6 text-right">
-            <a href="#" className="text-blue-500 text-sm hover:underline">
-              Forgot password?
-            </a>
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <a
+                href="/admin"
+                className="text-blue-500 text-sm hover:underline"
+              >
+                Are you an admin?
+              </a>
+            </div>
+
+            <div>
+              <a href="#" className="text-blue-500 text-sm hover:underline">
+                Forgot password?
+              </a>
+            </div>
           </div>
 
           {/* Sign In Button */}
