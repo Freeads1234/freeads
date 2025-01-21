@@ -154,16 +154,16 @@ function Signup({}) {
           </div>
 
           {/* Mobile Input */}
+
           <div className="mb-4">
             <PhoneInput
               id="mobile"
               placeholder="Enter phone number"
               value={mobile}
               onChange={setMobile}
-              defaultCountry="IN"
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              defaultCountry="IN" // Default country for the phone input
+              className="w-full h-12 border border-gray-300 rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               international
-              disabled={otpSent} // Disable phone input once OTP is sent
             />
           </div>
 
