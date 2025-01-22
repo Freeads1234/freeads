@@ -5,7 +5,7 @@ import PhoneInput from "react-phone-number-input";
 import { ToastContainer, toast } from "react-toastify";
 import { BACKEND_URL } from "../config";
 import { AuthContext } from "../utils/AuthContext";
-import bg from "../assets/images/bg.jpg";
+import bg from "../assets/images/bg_signup.jpg";
 import logo from "../assets/images/logo.png";
 
 function Signup({}) {
@@ -119,7 +119,7 @@ function Signup({}) {
         </Link>{" "}
       </div>
       <div className="w-full max-w-sm bg-white bg-opacity-80 p-6 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">Sign up</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1>
 
         <form>
           {/* Username Input */}
@@ -135,30 +135,42 @@ function Signup({}) {
             />
           </div>
 
-          <div className="mb-4">
-            <input
-              id="email"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={handleEmailChange}
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={otpSent} // Disable email input once OTP is sent
-            />
-            {/* Display error message if email is invalid */}
-            {!validateEmail(email) && email !== "" && (
-              <p className="text-red-500 text-sm mt-1">
-                Please enter a valid email address.
-              </p>
-            )}
-          </div>
+          <div className="mb-4 relative">
+  <input
+    id="email"
+    type="email"
+    placeholder="Email"
+    value={email}
+    onChange={handleEmailChange}
+    className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    disabled={otpSent} // Disable email input once OTP is sent
+  />
+
+  {/* Validation Icons */}
+  <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+    {email && !validateEmail(email) && (
+      // Red cross icon when email is invalid
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" className="h-6 w-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>
+    )}
+  </span>
+
+  {/* Tooltip: Invalid Email Message */}
+  {email && !validateEmail(email) && (
+    <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
+      Please enter a valid email address.
+    </div>
+  )}
+</div>
+
 
           {/* Mobile Input */}
 
           <div className="mb-4">
             <PhoneInput
               id="mobile"
-              placeholder="Enter phone number"
+              placeholder="Mobile"
               value={mobile}
               onChange={setMobile}
               defaultCountry="IN" // Default country for the phone input
@@ -168,39 +180,78 @@ function Signup({}) {
           </div>
 
           {/* Password Input */}
-          <div className="mb-4">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={otpSent} // Disable password input once OTP is sent
-            />
-            {!isPasswordValid && password && (
-              <p className="text-red-500 text-xs mt-1">
-                Password must be at least 8 characters, contain one number and
-                one uppercase letter.
-              </p>
-            )}
-          </div>
+          <div className="mb-4 relative group">
+  <input
+    type="password"
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    disabled={otpSent} // Disable password input once OTP is sent
+  />
+
+  {/* Validation Icons */}
+  <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+    {password && (
+      isPasswordValid ? (
+        // Green check (tick) icon
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" className="h-6 w-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      ) : (
+        // Red cross icon
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" className="h-6 w-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      )
+    )}
+  </span>
+
+  {/* Tooltip: Password Validation Message */}
+  {!isPasswordValid && password && (
+    <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      Password must be at least 8 characters, contain one number and one uppercase letter.
+    </div>
+  )}
+</div>
+
 
           {/* Confirm Password Input */}
-          <div className="mb-4">
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={otpSent} // Disable confirm password input once OTP is sent
-            />
-            {!isPasswordMatch && confirmPassword && (
-              <p className="text-red-500 text-xs mt-1">
-                Passwords do not match.
-              </p>
-            )}
-          </div>
+          <div className="mb-4 relative">
+  <input
+    type="password"
+    placeholder="Confirm Password"
+    value={confirmPassword}
+    onChange={(e) => setConfirmPassword(e.target.value)}
+    className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    disabled={otpSent} // Disable confirm password input once OTP is sent
+  />
+
+  {/* Validation Icons */}
+  <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+    {confirmPassword && (
+      isPasswordMatch ? (
+        // Green check (tick) icon when passwords match
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" className="h-6 w-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      ) : (
+        // Red cross icon when passwords do not match
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" className="h-6 w-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      )
+    )}
+  </span>
+
+  {/* Tooltip: Passwords Do Not Match */}
+  {!isPasswordMatch && confirmPassword && (
+    <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
+      Passwords do not match.
+    </div>
+  )}
+</div>
+
 
           {/* OTP Section */}
           {!otpSent && (
@@ -216,7 +267,7 @@ function Signup({}) {
                 !isPasswordValid || !isPasswordMatch || !mobile || !name
               } // Disable button if password is invalid, not matching, phone is empty or username is empty
             >
-              Send OTP
+              Sign Up
             </button>
           )}
 
@@ -244,15 +295,15 @@ function Signup({}) {
         </form>
 
         {/* Sign In Link */}
-        <div className="text-center mt-4">
+        <div className="text-right mb-4">
           <Link to="/sign-in" className="text-blue-500 hover:underline">
-            Sign in
+            Sign In
           </Link>
         </div>
       </div>
       <ToastContainer />
-      <div
-        className="absolute -right-3   flex flex-col justify-center items-center text-start font-thin"
+      {/* <div
+        className="absolute -right-16 flex flex-col justify-center items-center text-start font-thin"
         style={{
           padding: "2rem",
           marginRight: "2rem",
@@ -272,7 +323,7 @@ function Signup({}) {
           </span>{" "}
           for <span className="text-5xl font-bold">free</span>
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }

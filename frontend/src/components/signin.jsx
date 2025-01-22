@@ -80,14 +80,14 @@ function Signin() {
       </div>
 
       <div className="p-8 w-full max-w-sm border rounded-md shadow-lg bg-white bg-opacity-70">
-        <h1 className="text-xl font-bold text-center mb-6">Sign in</h1>
+        <h1 className="text-xl font-bold text-center mb-6">Sign In</h1>
 
         <form onSubmit={handleSubmit} method="POST">
           {/* Mobile Input */}
           <div className="mb-4">
             <PhoneInput
               id="mobile"
-              placeholder="Enter phone number"
+              placeholder="Mobile"
               value={mobile}
               onChange={setMobile}
               defaultCountry="IN" // Default country for the phone input
@@ -111,19 +111,20 @@ function Signin() {
           </div>
 
           {/* Forgot Password Link */}
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <a
-                href="/admin"
-                className="text-blue-500 text-sm hover:underline"
-              >
-                Are you an admin?
-              </a>
-            </div>
+          <div className="flex justify-between items-left mb-6">
+            
 
             <div>
               <a href="#" className="text-blue-500 text-sm hover:underline">
                 Forgot password?
+              </a>
+            </div>
+            <div className="text-center font-bold">
+              <a
+                href="/admin"
+                className="text-blue-500 text-sm hover:underline"
+              >
+               Admin
               </a>
             </div>
           </div>
@@ -141,22 +142,24 @@ function Signin() {
         </form>
 
         {/* Sign Up Link */}
-        <div className="mt-4 text-center">
-          <p className="text-sm">
+        <div className="mt-4 ">
+          <p className="text-sm flex justify-between">
             New to FreeADS?{" "}
             <Link
               to="/sign-up"
-              className="text-blue-500 hover:underline font-semibold"
+              className="text-blue-500 hover:underline"
             >
-              sign up
+              Sign up for free
             </Link>
           </p>
         </div>
+        
       </div>
+
 
       <ToastContainer />
       <div
-        className="absolute -right-3  flex flex-col justify-center items-center text-start font-thin"
+        className="absolute -right-16  flex flex-col justify-center items-center text-start font-thin"
         style={{
           padding: "2rem",
           marginRight: "2rem",
