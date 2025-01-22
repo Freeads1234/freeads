@@ -5,11 +5,10 @@ import AdCreateModal from "./adCreateModal";
 import { BACKEND_URL } from "../config";
 import { ToastContainer, toast } from "react-toastify";
 
-
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
- 
+
   const navigate = useNavigate();
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -17,34 +16,36 @@ function Header() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState(null); // Optional: store the username
-  
-  // Check authentication on initial load
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch(`${BACKEND_URL}/api/isloggedin/`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
 
-        if (response.ok) {
-          const data = await response.json();
-          setIsAuthenticated(data?.loggedIn);
-          setUsername(data?.username); 
-        } else {
+  // Check authentication on initial load
+  useEffect(
+    () => {
+      const checkAuthStatus = async () => {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/isloggedin/`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            setIsAuthenticated(data?.loggedIn);
+            setUsername(data?.username);
+          } else {
+            setIsAuthenticated(false);
+          }
+        } catch (error) {
           setIsAuthenticated(false);
         }
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
+      };
 
-    checkAuthStatus();
-  }, [],[isAuthenticated]);
-
-
+      checkAuthStatus();
+    },
+    [],
+    [isAuthenticated]
+  );
 
   const handleButtonClick = () => {
     if (!isAuthenticated) {
@@ -69,7 +70,7 @@ function Header() {
         document.cookie =
           "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // Expire the refresh token cookie
         toast.success("Logged out successfully!");
-        setIsAuthenticated(false)
+        setIsAuthenticated(false);
         window.location.reload(); // Optionally redirect to home page or sign-in page
       } else {
         // Handle errors from the server
@@ -86,11 +87,9 @@ function Header() {
     <>
       <header className="flex flex-row items-center justify-between mx-10 p-2 bg-white sticky">
         <div>
-        <Link to="/">
-
-        <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
-        </Link>
-
+          <Link to="/">
+            <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
+          </Link>
         </div>
 
         <nav className="hidden sm:flex justify-between items-center gap-4 mt-5">
@@ -145,17 +144,24 @@ function Header() {
           )}
 
           {!isAuthenticated && (
-            <div className="flex items-center justify-center">
-              <div className="border w-fit rounded-xl m-5 shadow-sm">
-                <Link to="/sign-in">
-                  <button className="px-4 py-2 rounded-l-xl text-white m-0 bg-[#2558da] hover:bg-blue-600 transition">
-                    Login
-                  </button>
-                </Link>
-                <Link to="/sign-up">
-                  <button className="px-4 py-2 rounded-r-xl bg-gray-50 hover:bg-gray-100 transition">
-                    Register
-                  </button>
+            <div className="items-center justify-center">
+              <div className="">
+                <Link to="/sign-in" className="flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                    />
+                  </svg>
+                  Sign In
                 </Link>
               </div>
             </div>
@@ -170,7 +176,7 @@ function Header() {
           setShowModal={setShowModal} // Pass the setter function to close the modal
         />
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }
