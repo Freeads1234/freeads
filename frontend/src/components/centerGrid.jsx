@@ -31,26 +31,29 @@ const CenteredGrid = () => {
 
   return (
     <div className="flex items-center justify-center xl:h-[600px]">
-      <div className="w-1/2 h-1/2 bg-white rounded-lg p-6 flex flex-col justify-center">
-        <div className="grid  grid-cols-1 lg:grid-cols-4 gap-4 text-center">
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center justify-center p-4 m-4 rounded-lg"
-            >
-              {/* Icon */}
-              <img
-                src={CatagoryIcon}
-                alt="category icon"
-                className="w-11 h-10"
-              />
-              {/* Title */}
-              <p className="text-md font-medium text-gray-700">{item.name}</p>
-            </div>
-          ))}
+  <div className="w-1/2 h-1/2 bg-white rounded-lg p-6 flex flex-col justify-center">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 text-center">
+      {items.map((item, index) => (
+        <div
+          key={index}
+          className="flex flex-col items-center justify-center p-4 m-4 rounded-lg"
+        >
+          {/* Icon */}
+          <img
+            src={CatagoryIcon}
+            alt="category icon"
+            className="w-11 h-10"
+          />
+          {/* Title */}
+          <p className="text-md font-medium text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis">
+            {item.name}
+          </p>
         </div>
-      </div>
+      ))}
     </div>
+  </div>
+</div>
+
   );
 };
 

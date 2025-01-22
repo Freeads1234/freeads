@@ -3,7 +3,6 @@ import ShimmerFeature from "./shimmerFeature";
 import { BACKEND_URL } from "../config";
 import ListingCard from "./listingCard";
 
-
 const FeaturedListings = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,34 +53,33 @@ const FeaturedListings = () => {
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto p-6">
+    <div className="max-w-screen-xl mx-auto flex flex-col p-6">
       {/* Heading */}
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-xl font-semibold tracking-widest text-gray-600 text-center mb-0">
+      <div className="flex justify-center items-center mb-8">
+        <h2 className="text-xl font-normal tracking-widest text-gray-500 text-center mb-0">
           FEATURED &gt; LISTINGS
         </h2>
-        <a
-          href="/all-ad"
-          className="text-blue-500 text-sm flex items-center hover:underline"
-        >
-          <span>View All</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-4 h-4 ml-2"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </a>
       </div>
-
+      <a
+        href="/all-ad"
+        className="text-blue-500 text-sm flex items-center justify-end hover:underline pb-3"
+      >
+        <span>View All</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-4 h-4 ml-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </a>
       {/* Listings */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8">
         {listings.map((listing, index) => (
