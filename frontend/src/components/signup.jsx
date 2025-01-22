@@ -136,34 +136,60 @@ function Signup({}) {
           </div>
 
           <div className="mb-4 relative">
-  <input
-    id="email"
-    type="email"
-    placeholder="Email"
-    value={email}
-    onChange={handleEmailChange}
-    className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    disabled={otpSent} // Disable email input once OTP is sent
-  />
+            <input
+              id="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={handleEmailChange}
+              className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={otpSent} // Disable email input once OTP is sent
+            />
 
-  {/* Validation Icons */}
-  <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-    {email && !validateEmail(email) && (
-      // Red cross icon when email is invalid
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" className="h-6 w-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-      </svg>
-    )}
-  </span>
+            {/* Validation Icons */}
+            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+              {email && !validateEmail(email) ? (
+                // Red cross icon when email is invalid
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="red"
+                  className="h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              ) : email && validateEmail(email) ? (
+                // Green tick icon when email is valid
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="green"
+                  className="h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              ) : null}
+            </span>
 
-  {/* Tooltip: Invalid Email Message */}
-  {email && !validateEmail(email) && (
-    <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
-      Please enter a valid email address.
-    </div>
-  )}
-</div>
-
+            {/* Tooltip: Invalid Email Message */}
+            {email && !validateEmail(email) && (
+              <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
+                Please enter a valid email address.
+              </div>
+            )}
+          </div>
 
           {/* Mobile Input */}
 
@@ -181,77 +207,118 @@ function Signup({}) {
 
           {/* Password Input */}
           <div className="mb-4 relative group">
-  <input
-    type="password"
-    placeholder="Password"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    disabled={otpSent} // Disable password input once OTP is sent
-  />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={otpSent} // Disable password input once OTP is sent
+            />
 
-  {/* Validation Icons */}
-  <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-    {password && (
-      isPasswordValid ? (
-        // Green check (tick) icon
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" className="h-6 w-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-      ) : (
-        // Red cross icon
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" className="h-6 w-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-      )
-    )}
-  </span>
+            {/* Validation Icons */}
+            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+              {password &&
+                (isPasswordValid ? (
+                  // Green check (tick) icon
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="green"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                ) : (
+                  // Red cross icon
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="red"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                ))}
+            </span>
 
-  {/* Tooltip: Password Validation Message */}
-  {!isPasswordValid && password && (
-    <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-      Password must be at least 8 characters, contain one number and one uppercase letter.
-    </div>
-  )}
-</div>
-
+            {/* Tooltip: Password Validation Message */}
+            {!isPasswordValid && password && (
+              <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Password must be at least 8 characters, contain one number and
+                one uppercase letter.
+              </div>
+            )}
+          </div>
 
           {/* Confirm Password Input */}
           <div className="mb-4 relative">
-  <input
-    type="password"
-    placeholder="Confirm Password"
-    value={confirmPassword}
-    onChange={(e) => setConfirmPassword(e.target.value)}
-    className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    disabled={otpSent} // Disable confirm password input once OTP is sent
-  />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={otpSent} // Disable confirm password input once OTP is sent
+            />
 
-  {/* Validation Icons */}
-  <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-    {confirmPassword && (
-      isPasswordMatch ? (
-        // Green check (tick) icon when passwords match
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" className="h-6 w-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-      ) : (
-        // Red cross icon when passwords do not match
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" className="h-6 w-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-      )
-    )}
-  </span>
+            {/* Validation Icons */}
+            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+              {confirmPassword &&
+                (isPasswordMatch ? (
+                  // Green check (tick) icon when passwords match
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="green"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                ) : (
+                  // Red cross icon when passwords do not match
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="red"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                ))}
+            </span>
 
-  {/* Tooltip: Passwords Do Not Match */}
-  {!isPasswordMatch && confirmPassword && (
-    <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
-      Passwords do not match.
-    </div>
-  )}
-</div>
-
+            {/* Tooltip: Passwords Do Not Match */}
+            {!isPasswordMatch && confirmPassword && (
+              <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
+                Passwords do not match.
+              </div>
+            )}
+          </div>
 
           {/* OTP Section */}
           {!otpSent && (

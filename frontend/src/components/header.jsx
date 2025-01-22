@@ -8,6 +8,11 @@ import { ToastContainer, toast } from "react-toastify";
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   const navigate = useNavigate();
   const toggleModal = () => {
@@ -85,7 +90,7 @@ function Header() {
 
   return (
     <>
-      <header className="flex flex-row items-center justify-between mx-10 p-2 bg-white sticky">
+      <header className="flex flex-row items-center justify-between mx-10 p-2 bg-white ">
         <div>
           <Link to="/">
             <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
@@ -116,37 +121,10 @@ function Header() {
             </svg>
             ADD LISTING
           </button>
-          {isAuthenticated && (
-            <Link to="/user-profile">
-              <svg
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                />
-              </svg>
-            </Link>
-          )}
-          {isAuthenticated && (
-            <button
-              type="button"
-              onClick={handleLogOut}
-              className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2"
-            >
-              Log Out
-            </button>
-          )}
-
           {!isAuthenticated && (
             <div className="items-center justify-center">
               <div className="">
-                <Link to="/sign-in" className="flex">
+                <Link to="/sign-in" className="flex text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -164,6 +142,91 @@ function Header() {
                   Sign In
                 </Link>
               </div>
+            </div>
+          )}
+          {isAuthenticated && (
+            <div className="relative font-[sans-serif] w-max mx-auto mr-4">
+              <button
+                type="button"
+                id="dropdownToggle"
+                className="px-4 py-2 border border-gray-200 flex items-center rounded-full text-[#333] text-sm  outline-none "
+                onClick={handleClick}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="w-4 h-4 mr-3"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M337.711 241.3a16 16 0 0 0-11.461 3.988c-18.739 16.561-43.688 25.682-70.25 25.682s-51.511-9.121-70.25-25.683a16.007 16.007 0 0 0-11.461-3.988c-78.926 4.274-140.752 63.672-140.752 135.224v107.152C33.537 499.293 46.9 512 63.332 512h385.336c16.429 0 29.8-12.707 29.8-28.325V376.523c-.005-71.552-61.831-130.95-140.757-135.223zM446.463 480H65.537V376.523c0-52.739 45.359-96.888 104.351-102.8C193.75 292.63 224.055 302.97 256 302.97s62.25-10.34 86.112-29.245c58.992 5.91 104.351 50.059 104.351 102.8zM256 234.375a117.188 117.188 0 1 0-117.188-117.187A117.32 117.32 0 0 0 256 234.375zM256 32a85.188 85.188 0 1 1-85.188 85.188A85.284 85.284 0 0 1 256 32z" />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-3 fill-gray-400 inline ml-3"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+
+              <ul
+                id="dropdownMenu"
+                className={`absolute block shadow-lg z-[9999] bg-white py-2 min-w-full w-max rounded-lg max-h-96 overflow-auto ${
+                  isOpen ? "block" : "hidden"
+                }`}
+              >
+                <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
+                  <img
+                    src="https://readymadeui.com/profile_6.webp"
+                    className="w-7 h-7 mr-3 rounded-full shrink-0"
+                    alt="Profile"
+                  />
+                  Fayiz
+                </li>
+                <Link to="/user-profile">
+                  <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#717171] text-sm cursor-pointer">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                      />
+                    </svg>
+                    View profile
+                  </li>
+                </Link>
+                <li
+                  className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#717171] text-sm cursor-pointer"
+                  onClick={handleLogOut}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
+                    />
+                  </svg>
+                  Sign Out
+                </li>
+              </ul>
             </div>
           )}
         </nav>
