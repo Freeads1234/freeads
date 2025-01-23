@@ -60,7 +60,7 @@ const UserProfile = () => {
               htmlFor="first-name"
               className="block text-sm font-semibold text-gray-700"
             >
-              First Name
+              Name
             </label>
             <input
               type="text"
@@ -69,7 +69,7 @@ const UserProfile = () => {
             />
           </div>
 
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label
               htmlFor="last-name"
               className="block text-sm font-semibold text-gray-700"
@@ -81,7 +81,7 @@ const UserProfile = () => {
               id="last-name"
               className="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-          </div>
+          </div> */}
 
           <div className="mb-4">
             <label

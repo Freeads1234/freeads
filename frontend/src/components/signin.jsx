@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../utils/AuthContext";
 import bg from "../assets/images/bg.jpg";
 import logo from "../assets/images/logo.png";
+import '../assets/css/phone.css';
 
 function Signin() {
   const [mobile, setMobile] = useState("");
@@ -79,22 +80,23 @@ function Signin() {
         </Link>{" "}
       </div>
 
-      <div className="p-8 w-full max-w-sm border rounded-md shadow-lg bg-white bg-opacity-70">
-        <h1 className="text-xl font-bold text-center mb-6">Sign In</h1>
+      <div className="p-3 w-full max-w-xs rounded-md ">
+        {/* <h1 className="text-xl font-bold text-center mb-6">Sign In</h1> */}
 
         <form onSubmit={handleSubmit} method="POST">
           {/* Mobile Input */}
           <div className="mb-4">
-            <PhoneInput
-              id="mobile"
-              placeholder="Mobile"
-              value={mobile}
-              onChange={setMobile}
-              defaultCountry="IN" // Default country for the phone input
-              className="w-full h-12 border border-gray-300 rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-              international
-            />
-          </div>
+  <PhoneInput
+    id="mobile"
+    placeholder="Mobile"
+    value={mobile}
+    onChange={setMobile}
+    defaultCountry="IN"
+    className="custom-phone-input w-full h-12 bg-transparent border rounded-lg px-4 focus:outline-none"
+    international
+  />
+</div>
+
 
           {/* Password Input */}
           <div className="mb-4">
@@ -102,7 +104,7 @@ function Signin() {
               type="password"
               id="password"
               name="password"
-              className="w-full h-12 border border-gray-300 rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-transparent h-12 border-2 border-gray-400 text-gray-300  rounded-lg px-4 "
               autoComplete="off"
               placeholder="Password"
               value={password}
@@ -167,7 +169,7 @@ function Signin() {
           maxWidth: "700px",
         }}
       >
-        <p className="text-5xl">
+        <p className="text-5xl leading-normal">
           <b className="font-bold">Advertise </b>your
           <br />
           <span className="text-5xl ">Brand, Product & Service</span>

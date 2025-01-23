@@ -1,0 +1,10 @@
+.custom-phone-input input {
+    background-color: transparent !important; /* Make the input background transparent */
+    border: none; /* Optional: Remove any default border */
+    color: inherit; /* Ensure text color matches the parent */
+  }
+  
+  .custom-phone-input {
+    background-color: transparent !important; /* Ensure the container is also transparent */
+  }
+  
