@@ -60,3 +60,8 @@ class LoginSerializer(serializers.ModelSerializer):
         if not user.is_active:
             raise serializers.ValidationError({"mobile":"This account is inactive."})
         return user
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'name', 'mobile', 'email', 'profile_pic']

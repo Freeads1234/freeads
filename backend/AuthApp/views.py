@@ -5,9 +5,11 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from django.core.cache import cache
+from django.shortcuts import get_object_or_404
 from .serializers import *
 from .utils import send_otp
 import random
+
     
 # class RegisterView(APIView):
 #     def post(self, request):
@@ -64,7 +66,14 @@ class LogoutView(APIView):
 class IsLoggedInView(APIView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return Response({"loggedIn": True,"username": request.user.name}, status=status.HTTP_200_OK)
+            return Response(
+                {"loggedIn": True,
+                 "id":request.user.id,
+                 "name": request.user.name,
+                 "mobile": request.user.mobile,
+                 "email": request.user.email,
+                 "profile_pic": request.user.profile_pic
+                 }, status=status.HTTP_200_OK)
         return Response({"loggedIn": False,"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
 
     # def post(self, request):
