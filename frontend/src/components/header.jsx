@@ -175,10 +175,30 @@ function Header() {
 
               <ul
                 id="dropdownMenu"
-                className={`absolute block shadow-lg z-[9999] bg-white py-2 min-w-full w-max rounded-lg max-h-96 overflow-auto ${
+                className={`absolute w-72 flex flex-col mt-1 h-72 -ml-60 shadow-lg z-[9999] bg-[rgb(249,247,245)] py-2 min-w-full rounded-lg max-h-96 overflow-auto ${
                   isOpen ? "block" : "hidden"
                 }`}
               >
+                <button
+                  onClick={handleClick}
+                  className="py-2.5 px-5 self-end w-16 h-10 hover:bg-gray-100 text-[#333] text-sm cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18 18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+
                 <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
                   <img
                     src="https://readymadeui.com/profile_6.webp"
@@ -187,12 +207,13 @@ function Header() {
                   />
                   Fayiz
                 </li>
+                <hr className="w-4/5 mx-auto my-2 border-t border-gray-300" />
                 <Link to="/user-profile">
                   <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#717171] text-sm cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
-                      viewBox="0 0 24 24"
+                      viewBox="0 0 28 28"
                       stroke-width="1.5"
                       stroke="currentColor"
                       class="size-6"
@@ -206,6 +227,8 @@ function Header() {
                     View profile
                   </li>
                 </Link>
+                <hr className="w-4/5 mx-auto my-2 border-t border-gray-300" />
+
                 <li
                   className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#717171] text-sm cursor-pointer"
                   onClick={handleLogOut}
@@ -213,7 +236,7 @@ function Header() {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
-                    viewBox="0 0 24 24"
+                    viewBox="0 0 28 28"
                     stroke-width="1.5"
                     stroke="currentColor"
                     class="size-6"
