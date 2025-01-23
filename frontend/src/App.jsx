@@ -15,7 +15,7 @@ import AdDetailPage from "./components/adDetailPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState(null); // Optional: store the username
+  const [userdata, setData] = useState(); // Optional: store the username
 
   // Check authentication on initial load
   useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
         if (response.ok) {
           const data = await response.json();
           setIsAuthenticated(data.loggedIn);
-          setUsername(data.username); 
+          setData(data); 
         } else {
           setIsAuthenticated(false);
         }
@@ -45,7 +45,7 @@ function App() {
 
   return (
     <>
-      <AuthContext.Provider value={{ isAuthenticated, username }}>
+      <AuthContext.Provider value={{ isAuthenticated, userdata }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
