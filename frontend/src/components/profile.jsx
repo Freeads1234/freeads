@@ -1,87 +1,116 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaPhone, FaWhatsapp } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
+import Banner from "./banner";
+import Header from "./header";
+import bannerImage from "../assets/images/banner.jpg";
 
 const UserProfile = () => {
-  const [notificationPreference, setNotificationPreference] = useState(false);
-
-  const user = {
-    name: "Fayiz",
-    email: "fayiz",
-    mobile: "73373737373",
-    bio: "Passionate developer and tech enthusiast",
-    image: "https://randomuser.me/api/portraits/men/1.jpg",
-  };
-
-  const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
-
-  const validatePhone = (phone) => {
-    const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-    return re.test(phone);
-  };
-
   return (
-    <div
-      className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center"
-      aria-modal="true"
-      role="dialog"
-    >
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md animate-fade-in-down">
-        <div className="flex items-start mb-6">
-          <img
-            src={user.image}
-            alt={user.name}
-            className="w-24 h-24 rounded-full border-4 border-blue-200 hover:border-blue-300 transition-all duration-300"
-          />
-          <div className="ml-4">
-            <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
-            <p className="text-gray-600 mt-1">
-              {user.bio.length > 100
-                ? `${user.bio.substring(0, 97)}...`
-                : user.bio}
-            </p>
-          </div>
-        </div>
+    <div className="relative">
+      {/* Banner */}
+      <Header />
+      <div className="w-full h-48 bg-gray-300 bg-cover bg-center">
+        <Banner imageUrl={bannerImage} />
+      </div>
 
-        <div className="mb-6">
-          <div className="flex border-b border-gray-200">
-            <button
-              className={"py-2 px-4 border-b-2 border-blue-500 text-blue-500"}
+      {/* Profile Container */}
+      <div className="relative bg-white mx-auto -mt-24 p-6 rounded-lg shadow-lg z-50 w-2/3">
+        {/* Profile Photo */}
+        <div className="absolute top-12 left-32 transform -translate-x-1/2">
+          <label
+            htmlFor="upload-photo"
+            className="flex flex-col items-center justify-center w-36 h-36  bg-gray-100 border-2 border-black rounded-lg shadow-md cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke="currentColor"
+              class="size-6"
             >
-              Contact Info
-            </button>
-          </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+              />
+            </svg>
+            Add Photo
+
+            <input
+              type="file"
+              id="upload-photo"
+              className="hidden"
+              accept="image/*"
+            />
+          </label>
         </div>
 
-        <div className="space-y-4">
-          <div>
+        {/* Form */}
+        <div className="ml-8">
+        <form className="mt-48 ">
+          <div className="mb-4 ">
+            <label
+              htmlFor="first-name"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              id="first-name"
+              className="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="last-name"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="last-name"
+              className="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="mobile"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              Mobile
+            </label>
+            <input
+              type="text"
+              id="mobile"
+              className="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-semibold text-gray-700"
             >
-              <FaEnvelope className="inline mr-2" />
               Email
             </label>
-            <p>{user.email}</p>
+            <input
+              type="email"
+              id="email"
+              className="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
           </div>
-          <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              <FaPhone className="inline mr-2" />
-              Phone
-            </label>
-            <p>{user.mobile}</p>
-          </div>
-          <div className="flex space-x-4">
-            <a href="#" className="text-blue-500 hover:text-blue-600">
-              <FaWhatsapp className="inline mr-1" /> WhatsApp
-            </a>
-          </div>
+        </form>
         </div>
       </div>
     </div>

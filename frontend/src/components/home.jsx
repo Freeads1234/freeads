@@ -12,7 +12,7 @@ function Home() {
     <div>
       <Header />
       <div>
-        <Banner imageUrl={bannerImage} title={title} subtitle={subtitle} />
+        <Banner imageUrl={bannerImage}  />
       </div>
       <CenteredGrid />
       <FeaturedListings/>
