@@ -63,7 +63,7 @@ class LogoutView(APIView):
         response.delete_cookie('access_token')
         return response
     
-class IsLoggedInView(APIView):
+class LogInUserView(APIView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return Response(
@@ -84,3 +84,16 @@ class IsLoggedInView(APIView):
     #         return Response({"message": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
     #     except Exception as e:
     #         return Response({"error": "Invalid or missing refresh token."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateProfilePicView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        user = request.user
+        serializer = UpdateProfilePicSerializer(user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
