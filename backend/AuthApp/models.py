@@ -9,7 +9,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     mobile = models.CharField(max_length=15, unique=True)
     email = models.EmailField(unique=True)
-    profile_pic = models.CharField(max_length=255,null=True)
+    profile_pic = models.ImageField(upload_to='profile-pic/',null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
