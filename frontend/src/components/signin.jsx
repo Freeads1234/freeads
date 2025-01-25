@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../utils/AuthContext";
 import bg from "../assets/images/bg.jpg";
 import logo from "../assets/images/logo.png";
+import "../assets/css/phone.css";
 
 function Signin() {
   const [mobile, setMobile] = useState("");
@@ -65,7 +66,7 @@ function Signin() {
 
   return (
     <div
-      className="flex justify-center items-center h-screen absolute w-full"
+      className="flex justify-center items-center h-screen absolute w-full "
       style={{
         backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
@@ -79,8 +80,9 @@ function Signin() {
         </Link>{" "}
       </div>
 
-      <div className="p-8 w-full max-w-sm border rounded-md shadow-lg bg-white bg-opacity-70">
-        <h1 className="text-xl font-bold text-center mb-6">Sign In</h1>
+      <div className="p-3 w-full max-w-xs rounded-md -mt-6">
+        {/* <h1 className="text-xl font-bold text-center mb-6">Sign In</h1> */}
+        {/* <h1 className="text-xl font-bold text-center mb-6">Sign In</h1> */}
 
         <form onSubmit={handleSubmit} method="POST">
           {/* Mobile Input */}
@@ -90,8 +92,8 @@ function Signin() {
               placeholder="Mobile"
               value={mobile}
               onChange={setMobile}
-              defaultCountry="IN" // Default country for the phone input
-              className="w-full h-12 border border-gray-300 rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              defaultCountry="IN"
+              className="custom-phone-input w-full h-12 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)]  rounded-lg px-4 focus:outline-none"
               international
             />
           </div>
@@ -102,7 +104,7 @@ function Signin() {
               type="password"
               id="password"
               name="password"
-              className="w-full h-12 border border-gray-300 rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
               autoComplete="off"
               placeholder="Password"
               value={password}
@@ -112,19 +114,17 @@ function Signin() {
 
           {/* Forgot Password Link */}
           <div className="flex justify-between items-left mb-6">
-            
-
             <div>
-              <a href="#" className="text-blue-500 text-sm hover:underline">
+              <a href="#" className="text-[rgb(33,88,192)] text-sm font-semibold hover:underline">
                 Forgot password?
               </a>
             </div>
             <div className="text-center font-bold">
               <a
                 href="/admin"
-                className="text-blue-500 text-sm hover:underline"
+                className="text-[rgb(33,88,192)] text-sm hover:underline"
               >
-               Admin
+                Admin
               </a>
             </div>
           </div>
@@ -132,7 +132,7 @@ function Signin() {
           {/* Sign In Button */}
           <button
             type="submit"
-            className={`w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg focus:outline-none ${
+            className={`w-full h-12 bg-[rgb(11,31,157)] hover:bg-blue-600 text-white font-semibold rounded-3xl focus:outline-none ${
               loading ? "bg-gray-500 cursor-not-allowed" : ""
             }`}
             disabled={loading}
@@ -143,19 +143,14 @@ function Signin() {
 
         {/* Sign Up Link */}
         <div className="mt-4 ">
-          <p className="text-sm flex justify-between">
+          <p className="text-sm flex text-[rgb(121,121,121)] font-semibold justify-between">
             New to FreeADS?{" "}
-            <Link
-              to="/sign-up"
-              className="text-blue-500 hover:underline"
-            >
+            <Link to="/sign-up" className="text-[rgb(33,88,192)] hover:underline">
               Sign up for free
             </Link>
           </p>
         </div>
-        
       </div>
-
 
       <ToastContainer />
       <div

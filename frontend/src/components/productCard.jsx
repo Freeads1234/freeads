@@ -1,36 +1,103 @@
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+
 const ProductCard = ({ image, title, description, price, buttonColor }) => {
-    return (
-        <section className="flex h-auto bg-white p-5 py-10 shadow-md hover:shadow-lg transform duration-500 hover:-translate-y-2 cursor-pointer border-2">
-            <div className="w-2/5">
-                <img src={image} alt={title} className="w-full h-auto object-cover" />
-            </div>
-            <div className="w-3/5 pl-6 flex flex-col justify-between">
-                <div>
-                    <div className="space-x-1 flex justify-start mt-2">
-                        {[...Array(4)].map((_, index) => (
-                            <svg
-                                key={index}
-                                className={`w-4 h-4 mx-px fill-current ${index < 3 ? 'text-orange-600' : 'text-gray-300'}`}
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 14 14"
-                            >
-                                <path d="M6.43 12l-2.36 1.64a1 1 0 0 1-1.53-1.11l.83-2.75a1 1 0 0 0-.35-1.09L.73 6.96a1 1 0 0 1 .59-1.8l2.87-.06a1 1 0 0 0 .92-.67l.95-2.71a1 1 0 0 1 1.88 0l.95 2.71c.13.4.5.66.92.67l2.87.06a1 1 0 0 1 .59 1.8l-2.3 1.73a1 1 0 0 0-.34 1.09l.83 2.75a1 1 0 0 1-1.53 1.1L7.57 12a1 1 0 0 0-1.14 0z" />
-                            </svg>
-                        ))}
-                    </div>
-                    <h1 className="text-3xl my-5 break-words">{title}</h1>
-                    <p className="mb-5">{description}</p>
-                </div>
-                <div>
-                    <h2 className="font-semibold mb-5">${price}</h2>
-                    {/* Uncomment to add button if needed */}
-                    {/* <button className={`p-2 px-6 ${buttonColor} text-white rounded-md hover:bg-opacity-80`}>
-                        Add To Cart
-                    </button> */}
-                </div>
-            </div>
-        </section>
-    );
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const truncatedDescription =
+    description.length > 10 ? description.slice(0, 10) + "..." : description;
+
+  return (
+    <section className="flex bg-white mb-3 shadow-md hover:shadow-lg transform duration-500 hover:-translate-y-2 cursor-pointer border-2 h-auto">
+      {/* Image container */}
+      <div className="w-1/4 h-full self-center border-r-2 overflow-hidden flex justify-center items-center p-2">
+        <img src={image} alt={title} className="w-full h-full object-cover" />
+      </div>
+
+      <div className="w-3/4 pl-6 flex flex-col justify-between mb-3">
+        {/* Job Details */}
+        <div className="mt-2 text-sm grid grid-cols-3 gap-x-4">
+          {/* Job Role */}
+          <div className="font-semibold col-span-1">Job Role</div>
+          <div className="font-thin col-span-2">: {title}</div>
+
+          {/* Company Name */}
+          <div className="font-semibold col-span-1">Company Name</div>
+          <div className="font-thin col-span-2">: EY Technologies</div>
+
+          {/* Salary */}
+          <div className="font-semibold col-span-1">Salary</div>
+          <div className="font-thin col-span-2">: 200k</div>
+
+          {/* Salary Range */}
+          <div className="font-semibold col-span-1">Salary Range</div>
+          <div className="font-thin col-span-2">: 20k-220k</div>
+
+          {/* Experience */}
+          <div className="font-semibold col-span-1">Experience</div>
+          <div className="font-thin col-span-2">: 2+ years</div>
+
+          {/* Job Description */}
+          <div className="font-semibold">Job Description</div>
+          <div className="font-thin">: 
+            {isExpanded ? description : truncatedDescription}
+            {description.length > 10 && (
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={toggleDescription}
+              >
+                {isExpanded ? " Read Less" : " Read More"}
+              </span>
+            )}
+          </div>
+          <br />
+          <div className="font-semibold col-span-1">Location</div>
+          <div className="font-thin col-span-2">: Kerala, India</div>
+        </div>
+
+        {/* Contact Information */}
+        <div className="flex space-x-4 mt-5">
+          {/* Email */}
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-blue-600" />
+
+            <a className="text-sm text-gray-500">supra@gmail.com</a>
+          </div>
+
+          {/* Phone */}
+          <div className="flex items-center">
+            <FontAwesomeIcon
+              icon={faPhoneAlt}
+              className="mr-2 text-green-600"
+            />
+            <a className="text-sm text-gray-500">+917337488290</a>
+          </div>
+
+          {/* WhatsApp */}
+          <div className="flex items-center">
+            <FontAwesomeIcon
+              icon={faWhatsapp}
+              className="mr-2 text-green-500"
+            />
+
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-gray-500"
+            >
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ProductCard;
