@@ -1,0 +1,20 @@
+.custom-phone-input {
+    background-color: transparent !important;
+    border: 2px solid rgb(121, 121, 121); /* Border width set to 2px */
+    border-radius: 8px; /* Smooth corners */
+    padding: 4px; /* Add some inner spacing */
+  }
+  
+  .custom-phone-input input {
+    background-color: transparent !important;
+    color: inherit;
+    outline: none !important;
+    border: none !important; /* Prevent inner input border */
+    width: 100%; /* Ensure the input stretches fully */
+  }
+  
+  .custom-phone-input input:focus {
+    outline: none; /* No outline */
+    box-shadow: none; /* No shadow */
+  }
+  
