@@ -118,8 +118,8 @@ function Signup({}) {
           <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
         </Link>{" "}
       </div>
-      <div className="w-full max-w-sm bg-white bg-opacity-80 p-6 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1>
+      <div className="p-3 w-full max-w-xs rounded-md -mt-6">
+        {/* <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1> */}
 
         <form>
           {/* Username Input */}
@@ -130,7 +130,7 @@ function Signup({}) {
               placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
               disabled={otpSent} // Disable username input once OTP is sent
             />
           </div>
@@ -142,7 +142,7 @@ function Signup({}) {
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
-              className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
               disabled={otpSent} // Disable email input once OTP is sent
             />
 
@@ -199,8 +199,8 @@ function Signup({}) {
               placeholder="Mobile"
               value={mobile}
               onChange={setMobile}
-              defaultCountry="IN" // Default country for the phone input
-              className="w-full h-12 border border-gray-300 rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              defaultCountry="IN"
+              className="custom-phone-input w-full h-12 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)]  rounded-lg px-4 focus:outline-none"
               international
             />
           </div>
@@ -212,7 +212,7 @@ function Signup({}) {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
               disabled={otpSent} // Disable password input once OTP is sent
             />
 
@@ -270,7 +270,7 @@ function Signup({}) {
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full h-12 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
               disabled={otpSent} // Disable confirm password input once OTP is sent
             />
 
@@ -328,8 +328,8 @@ function Signup({}) {
               className={`w-full h-12 ${
                 isPasswordValid && isPasswordMatch && mobile && name
                   ? "bg-blue-500"
-                  : "bg-gray-500 cursor-not-allowed"
-              } text-white rounded-lg hover:bg-blue-600 focus:outline-none mb-4`}
+                  : "bg-[rgb(11,31,157)] cursor-not-allowed"
+              } text-white rounded-3xl hover:bg-blue-600 focus:outline-none mb-4`}
               disabled={
                 !isPasswordValid || !isPasswordMatch || !mobile || !name
               } // Disable button if password is invalid, not matching, phone is empty or username is empty
@@ -363,7 +363,7 @@ function Signup({}) {
 
         {/* Sign In Link */}
         <div className="text-right mb-4">
-          <Link to="/sign-in" className="text-blue-500 hover:underline">
+          <Link to="/sign-in" className="text-[rgb(33,88,192)] font-medium hover:underline">
             Sign In
           </Link>
         </div>
