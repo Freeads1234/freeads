@@ -27,7 +27,7 @@ function Header() {
     () => {
       const checkAuthStatus = async () => {
         try {
-          const response = await fetch(`${BACKEND_URL}/api/isloggedin/`, {
+          const response = await fetch(`${BACKEND_URL}/api/login-user/`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

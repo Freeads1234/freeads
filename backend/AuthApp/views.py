@@ -65,6 +65,7 @@ class LogoutView(APIView):
     
 class LogInUserView(APIView):
     def get(self, request, *args, **kwargs):
+        print(type(request.user.profile_pic))
         if request.user.is_authenticated:
             return Response(
                 {"loggedIn": True,
@@ -72,7 +73,7 @@ class LogInUserView(APIView):
                  "name": request.user.name,
                  "mobile": request.user.mobile,
                  "email": request.user.email,
-                 "profile_pic": request.user.profile_pic
+                 "profile_pic": f"media/{str(request.user.profile_pic)}" or None
                  }, status=status.HTTP_200_OK)
         return Response({"loggedIn": False,"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
 

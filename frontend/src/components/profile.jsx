@@ -58,11 +58,11 @@ const UserProfile = () => {
           {/* Image Preview */}
           <div
             className=" w-36 h-36 absolute top-12 bg-gray-100 border-2 border-dashed border-black rounded-lg flex items-center justify-center"
-            style={{ display: userdata?.image ? "block" : "none" }}
+            style={{ display: userdata?.profile_pic ? "block" : "none" }}
           >
             <img
               id="image-preview"
-              src={userdata?.image}
+              src={userdata?.profile_pic}
               alt="Preview"
               className="w-full h-full object-cover rounded-lg"
             />
