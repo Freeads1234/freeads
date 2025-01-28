@@ -20,9 +20,8 @@ function Header() {
   };
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState(null); // Optional: store the username
-
-  // Check authentication on initial load
+  const [userdata, setData] = useState(null); 
+  
   useEffect(
     () => {
       const checkAuthStatus = async () => {
@@ -37,7 +36,8 @@ function Header() {
           if (response.ok) {
             const data = await response.json();
             setIsAuthenticated(data?.loggedIn);
-            setUsername(data?.username);
+            console.log("userdata",data)
+            setData(data);
           } else {
             setIsAuthenticated(false);
           }
@@ -201,11 +201,11 @@ function Header() {
 
                 <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
                   <img
-                    src="https://readymadeui.com/profile_6.webp"
-                    className="w-7 h-7 mr-3 rounded-full shrink-0"
+                    src={userdata?.profile_pic}
+                    className="w-11 h-11 mr-3 rounded-full shrink-0"
                     alt="Profile"
                   />
-                  Fayiz
+                  {userdata?.name}
                 </li>
                 <hr className="w-4/5 mx-auto my-2 border-t border-gray-300" />
                 <Link to="/user-profile">
