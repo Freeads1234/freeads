@@ -34,6 +34,7 @@ const UserProfile = () => {
 
         const data = await response.json();
         console.log("Upload success:", data);
+        window.location.reload();
 
         // Handle success (e.g., update UI or show a message)
       } catch (error) {
