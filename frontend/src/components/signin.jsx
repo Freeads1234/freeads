@@ -76,11 +76,11 @@ function Signin() {
     >
       <div className="absolute top-0 left-0 text-start px-8 py-3">
         <Link to="/">
-          <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
+          <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
         </Link>{" "}
       </div>
 
-      <div className="p-3 w-full max-w-xs rounded-md -mt-6">
+      <div className=" w-[250px] max-w-xs rounded-md -mt-6">
         {/* <h1 className="text-xl font-bold text-center mb-6">Sign In</h1> */}
         {/* <h1 className="text-xl font-bold text-center mb-6">Sign In</h1> */}
 
@@ -93,7 +93,7 @@ function Signin() {
               value={mobile}
               onChange={setMobile}
               defaultCountry="IN"
-              className="custom-phone-input w-full h-12 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)]  rounded-lg px-4 focus:outline-none"
+              className="custom-phone-input w-full h-10 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)]  rounded-lg px-4 focus:outline-none"
               international
             />
           </div>
@@ -104,7 +104,7 @@ function Signin() {
               type="password"
               id="password"
               name="password"
-              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
+              className="w-full h-10 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
               autoComplete="off"
               placeholder="Password"
               value={password}
@@ -132,7 +132,7 @@ function Signin() {
           {/* Sign In Button */}
           <button
             type="submit"
-            className={`w-full h-12 bg-[rgb(11,31,157)] hover:bg-blue-600 text-white font-semibold rounded-3xl focus:outline-none ${
+            className={`w-full h-10 bg-[rgb(11,31,157)] hover:bg-blue-600 text-white font-semibold rounded-3xl focus:outline-none ${
               loading ? "bg-gray-500 cursor-not-allowed" : ""
             }`}
             disabled={loading}
@@ -154,7 +154,7 @@ function Signin() {
 
       <ToastContainer />
       <div
-        className="absolute -right-16  flex flex-col justify-center items-center text-start font-thin"
+        className="absolute -right-8  flex flex-col justify-center items-center text-start font-thin"
         style={{
           padding: "2rem",
           marginRight: "2rem",

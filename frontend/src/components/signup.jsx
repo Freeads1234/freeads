@@ -115,9 +115,10 @@ function Signup({}) {
     >
       <div className="absolute top-0 left-0 text-start px-8 py-3">
         <Link to="/">
-          <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
+          <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
         </Link>{" "}
       </div>
+
       <div className="p-3 w-full max-w-xs rounded-md -mt-6">
         {/* <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1> */}
 
