@@ -5,7 +5,7 @@ import PhoneInput from "react-phone-number-input";
 import { ToastContainer, toast } from "react-toastify";
 import { BACKEND_URL } from "../config";
 import { AuthContext } from "../utils/AuthContext";
-import bg from "../assets/images/bg_signup.jpg";
+import bg from "../assets/images/signUpBg.jpg";
 import logo from "../assets/images/logo.png";
 
 function Signup({}) {
@@ -105,12 +105,12 @@ function Signup({}) {
 
   return (
     <div
-      className="flex justify-center items-center h-screen absolute w-full"
+      className="flex items-center h-screen absolute w-full "
       style={{
         backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "left 50%",
         backgroundRepeat: "no-repeat",
+        backgroundSize: "50% 100%",
       }}
     >
       <div className="absolute top-0 left-0 text-start px-8 py-3">
@@ -118,10 +118,11 @@ function Signup({}) {
           <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
         </Link>{" "}
       </div>
-
-      <div className="p-3 w-full max-w-xs rounded-md -mt-6">
-        {/* <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1> */}
-
+      <div className="w-1/2 relative text-white">
+       
+      </div>
+      <div className="w-1/2 flex items-center justify-center">
+        <div className="px-8">
         <form>
           {/* Username Input */}
           <div className="mb-4">
@@ -295,7 +296,6 @@ function Signup({}) {
                     />
                   </svg>
                 ) : (
-                  // Red cross icon when passwords do not match
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -370,28 +370,7 @@ function Signup({}) {
         </div>
       </div>
       <ToastContainer />
-      {/* <div
-        className="absolute -right-16 flex flex-col justify-center items-center text-start font-thin"
-        style={{
-          padding: "2rem",
-          marginRight: "2rem",
-          borderRadius: "8px",
-          maxWidth: "700px",
-        }}
-      >
-        <p className="text-5xl">
-          <b className="font-bold">Advertise </b>your
-          <br />
-          <span className="text-5xl ">Brand, Product & Service</span>
-          <br />
-          to reach millions
-          <br />
-          <span className="text-5xl font-bold">
-            <b>absolutely</b>
-          </span>{" "}
-          for <span className="text-5xl font-bold">free</span>
-        </p>
-      </div> */}
+      </div>
     </div>
   );
 }
