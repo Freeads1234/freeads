@@ -5,7 +5,7 @@ import PhoneInput from "react-phone-number-input";
 import { BACKEND_URL } from "../config";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../utils/AuthContext";
-import bg from "../assets/images/bg.jpg";
+import bg from "../assets/images/signInBg.jpg";
 import logo from "../assets/images/logo.png";
 import "../assets/css/phone.css";
 
@@ -66,12 +66,12 @@ function Signin() {
 
   return (
     <div
-      className="flex justify-center items-center h-screen absolute w-full "
+      className="flex items-center h-screen absolute w-full "
       style={{
         backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "left 50%",
         backgroundRepeat: "no-repeat",
+        backgroundSize: "50% 100%",
       }}
     >
       <div className="absolute top-0 left-0 text-start px-8 py-3">
@@ -79,11 +79,24 @@ function Signin() {
           <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
         </Link>{" "}
       </div>
+      <div className="w-1/2 relative text-white">
+        <div className="h-full flex items-center justify-center">
+          <div className="max-w-2xl px-8 text-center">
+            <h1 className="text-5xl font-light leading-tight">
+              <span className="font-bold">Advertise</span> your
+              <br />
+              Brand, Product & Service
+              <br />
+              to reach millions
+              <br />
+              <span className="font-bold">absolutely</span> for{" "}
+              <span className="font-bold">free</span>
+            </h1>
+          </div>
+        </div>
+      </div>
 
-      <div className=" w-[250px] max-w-xs rounded-md -mt-6">
-        {/* <h1 className="text-xl font-bold text-center mb-6">Sign In</h1> */}
-        {/* <h1 className="text-xl font-bold text-center mb-6">Sign In</h1> */}
-
+      <div className="w-1/2 flex items-center justify-center ">
         <form onSubmit={handleSubmit} method="POST">
           {/* Mobile Input */}
           <div className="mb-4">
@@ -115,7 +128,10 @@ function Signin() {
           {/* Forgot Password Link */}
           <div className="flex justify-between items-left mb-6">
             <div>
-              <a href="#" className="text-[rgb(33,88,192)] text-sm font-semibold hover:underline">
+              <a
+                href="#"
+                className="text-[rgb(33,88,192)] text-sm font-semibold hover:underline"
+              >
                 Forgot password?
               </a>
             </div>
@@ -139,42 +155,23 @@ function Signin() {
           >
             {loading ? "Logging in..." : "Sign in"}
           </button>
+          <div className="mt-4 ">
+            <p className="text-sm flex text-[rgb(121,121,121)]  justify-between">
+              New to FreeADS?{" "}
+              <Link
+                to="/sign-up"
+                className="text-[rgb(54,92,172)] hover:underline"
+              >
+                Sign up for free
+              </Link>
+            </p>
+          </div>
         </form>
 
         {/* Sign Up Link */}
-        <div className="mt-4 ">
-          <p className="text-sm flex text-[rgb(121,121,121)] font-semibold justify-between">
-            New to FreeADS?{" "}
-            <Link to="/sign-up" className="text-[rgb(33,88,192)] hover:underline">
-              Sign up for free
-            </Link>
-          </p>
-        </div>
       </div>
 
       <ToastContainer />
-      <div
-        className="absolute -right-8  flex flex-col justify-center items-center text-start font-thin"
-        style={{
-          padding: "2rem",
-          marginRight: "2rem",
-          borderRadius: "8px",
-          maxWidth: "700px",
-        }}
-      >
-        <p className="text-5xl">
-          <b className="font-bold">Advertise </b>your
-          <br />
-          <span className="text-5xl ">Brand, Product & Service</span>
-          <br />
-          to reach millions
-          <br />
-          <span className="text-5xl font-bold">
-            <b>absolutely</b>
-          </span>{" "}
-          for <span className="text-5xl font-bold">free</span>
-        </p>
-      </div>
     </div>
   );
 }
