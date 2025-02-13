@@ -4,10 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import AdCreateModal from "./adCreateModal";
 import { BACKEND_URL } from "../config";
 import { ToastContainer, toast } from "react-toastify";
+import UserProfile from "./profile";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -18,10 +21,13 @@ function Header() {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+  const toggleUserModal = () => {
+    setShowUserModal(!showUserModal);
+  };
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userdata, setData] = useState(null); 
-  
+  const [userdata, setData] = useState(null);
+
   useEffect(
     () => {
       const checkAuthStatus = async () => {
@@ -36,7 +42,7 @@ function Header() {
           if (response.ok) {
             const data = await response.json();
             setIsAuthenticated(data?.loggedIn);
-            console.log("userdata",data)
+            console.log("userdata", data);
             setData(data);
           } else {
             setIsAuthenticated(false);
@@ -208,7 +214,7 @@ function Header() {
                   {userdata?.name}
                 </li>
                 <hr className="w-4/5 mx-auto my-2 border-t border-gray-300" />
-                <Link to="/user-profile">
+                <button onClick={toggleUserModal}>
                   <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#717171] text-sm cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -226,7 +232,7 @@ function Header() {
                     </svg>
                     View profile
                   </li>
-                </Link>
+                </button>
                 <hr className="w-4/5 mx-auto my-2 border-t border-gray-300" />
 
                 <li
@@ -260,6 +266,12 @@ function Header() {
         <AdCreateModal
           showModal={showModal}
           setShowModal={setShowModal} // Pass the setter function to close the modal
+        />
+      )}
+      {showUserModal && (
+        <UserProfile
+          showUserModal={showUserModal}
+          setShowUserModal={setShowUserModal}
         />
       )}
       <ToastContainer />
