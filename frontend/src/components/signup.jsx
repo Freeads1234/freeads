@@ -15,6 +15,7 @@ function Signup({}) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
+  const [verified, setVerified] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [email, setEmail] = useState("");
@@ -48,7 +49,8 @@ function Signup({}) {
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
-    if (!isPasswordValid || !isPasswordMatch || !mobile || !name) {
+    setOtpSent(true);
+    if (!mobile) {
       toast.error("Please ensure all fields are filled correctly.");
       return;
     }
@@ -72,6 +74,8 @@ function Signup({}) {
   };
 
   const handleVerifyOtp = async () => {
+    setVerified(true)
+
     if (!otp) {
       toast.error("Please enter the OTP.");
       return;
@@ -118,127 +122,38 @@ function Signup({}) {
           <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
         </Link>{" "}
       </div>
-      <div className="w-1/2 relative text-white">
-       
-      </div>
+      <div className="w-1/2 relative text-white"></div>
       <div className="w-1/2 flex items-center justify-center">
         <div className="px-8">
-        <form>
-          {/* Username Input */}
-          <div className="mb-4">
-            <input
-              id="name"
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
-              disabled={otpSent} // Disable username input once OTP is sent
-            />
-          </div>
+          <form>
+            {/* Username Input */}
+            {/* <div className="mb-4">
+              <input
+                id="name"
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
+                disabled={otpSent} // Disable username input once OTP is sent
+              />
+            </div> */}
 
-          <div className="mb-4 relative">
-            <input
-              id="email"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={handleEmailChange}
-              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
-              disabled={otpSent} // Disable email input once OTP is sent
-            />
+            {/* <div className="mb-4 relative">
+              <input
+                id="email"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={handleEmailChange}
+                className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
+                disabled={otpSent} // Disable email input once OTP is sent
+              />
 
-            {/* Validation Icons */}
-            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-              {email && !validateEmail(email) ? (
-                // Red cross icon when email is invalid
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="red"
-                  className="h-6 w-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              ) : email && validateEmail(email) ? (
-                // Green tick icon when email is valid
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="green"
-                  className="h-6 w-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              ) : null}
-            </span>
-
-            {/* Tooltip: Invalid Email Message */}
-            {email && !validateEmail(email) && (
-              <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
-                Please enter a valid email address.
-              </div>
-            )}
-          </div>
-
-          {/* Mobile Input */}
-
-          <div className="mb-4">
-            <PhoneInput
-              id="mobile"
-              placeholder="Mobile"
-              value={mobile}
-              onChange={setMobile}
-              defaultCountry="IN"
-              className="custom-phone-input w-full h-12 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)]  rounded-lg px-4 focus:outline-none"
-              international
-            />
-          </div>
-
-          {/* Password Input */}
-          <div className="mb-4 relative group">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
-              disabled={otpSent} // Disable password input once OTP is sent
-            />
-
-            {/* Validation Icons */}
-            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-              {password &&
-                (isPasswordValid ? (
-                  // Green check (tick) icon
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="green"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                ) : (
-                  // Red cross icon
+              // Validation Icons 
+              <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                {email && !validateEmail(email) ? (
+                  // Red cross icon when email is invalid
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -253,34 +168,8 @@ function Signup({}) {
                       d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                     />
                   </svg>
-                ))}
-            </span>
-
-            {/* Tooltip: Password Validation Message */}
-            {!isPasswordValid && password && (
-              <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                Password must be at least 8 characters, contain one number and
-                one uppercase letter.
-              </div>
-            )}
-          </div>
-
-          {/* Confirm Password Input */}
-          <div className="mb-4 relative">
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
-              disabled={otpSent} // Disable confirm password input once OTP is sent
-            />
-
-            {/* Validation Icons */}
-            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-              {confirmPassword &&
-                (isPasswordMatch ? (
-                  // Green check (tick) icon when passwords match
+                ) : email && validateEmail(email) ? (
+                  // Green tick icon when email is valid
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -295,81 +184,248 @@ function Signup({}) {
                       d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                     />
                   </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="red"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                ))}
-            </span>
+                ) : null}
+              </span>
 
-            {/* Tooltip: Passwords Do Not Match */}
-            {!isPasswordMatch && confirmPassword && (
-              <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
-                Passwords do not match.
-              </div>
-            )}
-          </div>
+              {email && !validateEmail(email) && (
+                <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
+                  Please enter a valid email address.
+                </div>
+              )}
+            </div> */}
 
-          {/* OTP Section */}
-          {!otpSent && (
-            <button
-              type="button"
-              onClick={handleSendOtp}
-              className={`w-full h-12 ${
-                isPasswordValid && isPasswordMatch && mobile && name
-                  ? "bg-blue-500"
-                  : "bg-[rgb(11,31,157)] cursor-not-allowed"
-              } text-white rounded-3xl hover:bg-blue-600 focus:outline-none mb-4`}
-              disabled={
-                !isPasswordValid || !isPasswordMatch || !mobile || !name
-              } // Disable button if password is invalid, not matching, phone is empty or username is empty
-            >
-              Sign Up
-            </button>
-          )}
+            {/* Mobile Input */}
 
-          {otpSent && (
-            <>
-              {/* OTP Input */}
+            {!otpSent && (
               <div className="mb-4">
-                <input
-                  type="text"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  placeholder="Enter OTP"
-                  className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <PhoneInput
+                  id="mobile"
+                  placeholder="Mobile"
+                  value={mobile}
+                  onChange={setMobile}
+                  defaultCountry="IN"
+                  className="custom-phone-input w-full h-12 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)]  rounded-lg px-4 focus:outline-none"
+                  international
                 />
               </div>
+            )}
+
+            {/* Password Input */}
+           {verified &&(
+            <div className="mb-4 relative group">
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
+                disabled={otpSent} // Disable password input once OTP is sent
+              />
+
+            
+              <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                {password &&
+                  (isPasswordValid ? (
+                    // Green check (tick) icon
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="green"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  ) : (
+                    // Red cross icon
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="red"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  ))}
+              </span>
+
+              {!isPasswordValid && password && (
+                <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  Password must be at least 8 characters, contain one number and
+                  one uppercase letter.
+                </div>
+              )}
+            </div>
+           )}
+            {verified&&(
+            <div className="mb-4 relative">
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full h-12 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
+                disabled={otpSent} // Disable confirm password input once OTP is sent
+              />
+
+              <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                {confirmPassword &&
+                  (isPasswordMatch ? (
+                    // Green check (tick) icon when passwords match
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="green"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="red"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  ))}
+              </span>
+
+              {!isPasswordMatch && confirmPassword && (
+                <div className="absolute left-0 bottom-full mb-2 w-full bg-red-500 text-white text-xs rounded py-1 px-2 opacity-100">
+                  Passwords do not match.
+                </div>
+              )}
+            </div>
+                )}
+
+            {/* OTP Section */}
+            {!otpSent && (
               <button
                 type="button"
-                onClick={handleVerifyOtp}
-                className="w-full h-12 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none mb-4"
+                onClick={handleSendOtp}
+                className={
+                  "w-full h-12 bg-[rgb(11,31,157)] text-white rounded-3xl hover:bg-blue-600 focus:outline-none mb-4"
+                }
               >
-                Verify OTP
+                &gt;
               </button>
-            </>
-          )}
-        </form>
+            )}
 
-        {/* Sign In Link */}
-        <div className="text-right mb-4">
-          <Link to="/sign-in" className="text-[rgb(33,88,192)] font-medium hover:underline">
-            Sign In
-          </Link>
+            {otpSent  && !verified  && (
+              <>
+                {/* OTP Input */}
+                <div className="mb-4 flex space-x-2">
+                  <input
+                    type="text"
+                    maxLength="1"
+                    value={otp[0]}
+                    onChange={(e) => {
+                      setOtp(otp.slice(0, 0) + e.target.value + otp.slice(1));
+                      if (e.target.value) {
+                        document.getElementById("otp-input-1").focus(); // Focus next input
+                      }
+                    }}
+                    placeholder="•"
+                    className="w-12 h-12 text-center border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-500"
+                    id="otp-input-0"
+                  />
+                  <input
+                    type="text"
+                    maxLength="1"
+                    value={otp[1]}
+                    onChange={(e) => {
+                      setOtp(otp.slice(0, 1) + e.target.value + otp.slice(2));
+                      if (e.target.value) {
+                        document.getElementById("otp-input-2").focus(); // Focus next input
+                      }
+                    }}
+                    placeholder="•"
+                    className="w-12 h-12 text-center border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-500"
+                    id="otp-input-1"
+                  />
+                  <input
+                    type="text"
+                    maxLength="1"
+                    value={otp[2]}
+                    onChange={(e) => {
+                      setOtp(otp.slice(0, 2) + e.target.value + otp.slice(3));
+                      if (e.target.value) {
+                        document.getElementById("otp-input-3").focus(); // Focus next input
+                      }
+                    }}
+                    placeholder="•"
+                    className="w-12 h-12 text-center border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-500"
+                    id="otp-input-2"
+                  />
+                  <input
+                    type="text"
+                    maxLength="1"
+                    value={otp[3]}
+                    onChange={(e) => setOtp(otp.slice(0, 3) + e.target.value)}
+                    placeholder="•"
+                    className="w-12 h-12 text-center border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-500"
+                    id="otp-input-3"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleVerifyOtp}
+                  className={
+                    "w-full h-12 bg-[rgb(11,31,157)] text-white rounded-3xl hover:bg-blue-600 focus:outline-none mb-4"
+                  }
+                >
+                  &gt;
+                </button>
+              </>
+            )}
+            {verified&&(<button
+                  type="button"
+                  //onClick={handleVerifyOtp}
+                  className={
+                    "w-full h-12 bg-[rgb(11,31,157)] text-white rounded-3xl hover:bg-blue-600 focus:outline-none mb-4"
+                  }
+                >
+                  &gt;
+                </button>)}
+          </form>
+
+          {/* Sign In Link */}
+          <div className="text-center mb-4">
+            <Link
+              to="/sign-in"
+              className="text-[rgb(33,88,192)] font-medium hover:underline"
+            >
+              Sign In
+            </Link>
+          </div>
         </div>
-      </div>
-      <ToastContainer />
+        <ToastContainer />
       </div>
     </div>
   );

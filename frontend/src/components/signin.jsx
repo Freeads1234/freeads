@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "react-phone-number-input/style.css"; // Importing styles for the PhoneInput component
+import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { BACKEND_URL } from "../config";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,7 +28,6 @@ function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!isFormValid()) {
       toast.error("Please fill in all fields");
       return;
@@ -45,14 +44,10 @@ function Signin() {
       if (response.ok) {
         const data = await response.json();
         const { access_token, refresh_token } = data;
-
-        // Store tokens securely (accessToken in localStorage and refreshToken in HttpOnly cookies)
         localStorage.setItem("accessToken", access_token);
-        document.cookie = `refreshToken=${refresh_token}; path=/; HttpOnly; secure`; // Secure cookie for refresh token
-
-        // Redirect to homepage (or desired page after login)
+        document.cookie = `refreshToken=${refresh_token}; path=/; HttpOnly; secure`;
         toast.success("Login successful!");
-        window.location.reload(); // Use navigate from react-router for redirection
+        window.location.reload();
       } else {
         const data = await response.json();
         toast.error(data?.message[0] || "Login failed. Please try again.");
@@ -60,115 +55,115 @@ function Signin() {
     } catch (err) {
       toast.error("Something went wrong. Please try again later.");
     } finally {
-      setLoading(false); // Stop loading state
+      setLoading(false);
     }
   };
 
   return (
-    <div
-      className="flex items-center h-screen absolute w-full "
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundPosition: "left 50%",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "50% 100%",
-      }}
-    >
-      <div className="absolute top-0 left-0 text-start px-8 py-3">
+    <div className="min-h-screen w-full bg-white">
+      {/* Logo */}
+      <div className="absolute top-0 left-0 w-full p-4 z-10">
         <Link to="/">
-          <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
-        </Link>{" "}
+          <img src={logo} alt="Logo" className="w-40 h-auto" />
+        </Link>
       </div>
-      <div className="w-1/2 relative text-white">
-        <div className="h-full flex items-center justify-center">
-          <div className="max-w-2xl px-8 text-center">
-            <h1 className="text-5xl font-light leading-tight">
-              <span className="font-bold">Advertise</span> your
-              <br />
-              Brand, Product & Service
-              <br />
-              to reach millions
-              <br />
-              <span className="font-bold">absolutely</span> for{" "}
-              <span className="font-bold">free</span>
-            </h1>
+
+      {/* Main Section */}
+      <div className="flex flex-col min-h-screen md:flex-row">
+        {/* Left Side Background */}
+        <div className="relative w-full md:w-1/2 h-[400px] md:h-screen">
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{
+              backgroundImage: `url(${bg})`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          />
+          <div className="absolute inset-0 bg-black/50" />
+
+          <div className="relative h-full flex items-center justify-center">
+            <div className="text-white text-center px-4">
+              <h1 className="text-3xl md:text-4xl font-light leading-tight">
+                <span className="font-bold">Advertise</span> your
+                <br />
+                Brand, Product & Service
+                <br />
+                to reach millions
+                <br />
+                <span className="font-bold">absolutely</span> for{" "}
+                <span className="font-bold">free</span>
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="w-1/2 flex items-center justify-center ">
-        <form onSubmit={handleSubmit} method="POST">
-          {/* Mobile Input */}
-          <div className="mb-4">
-            <PhoneInput
-              id="mobile"
-              placeholder="Mobile"
-              value={mobile}
-              onChange={setMobile}
-              defaultCountry="IN"
-              className="custom-phone-input w-full h-10 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)]  rounded-lg px-4 focus:outline-none"
-              international
-            />
-          </div>
+        {/* Right Side Form */}
+        <div className="w-full md:w-1/2 flex items-center justify-center px-4 py-8">
+          <div className="w-full max-w-sm md:ml-28">
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <PhoneInput
+                  placeholder="Mobile"
+                  value={mobile}
+                  onChange={setMobile}
+                  defaultCountry="IN"
+                  className="custom-phone-input w-full md:w-2/3 h-12 bg-transparent border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] rounded-lg px-4 focus:outline-none"
+                  international
+                />
+              </div>
 
-          {/* Password Input */}
-          <div className="mb-4">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="w-full h-10 bg-transparent border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
-              autoComplete="off"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+              <div className="mb-4">
+                <input
+                  type="password"
+                  name="password"
+                  className=" h-12 bg-transparent w-full md:w-2/3 border-2 border-[rgb(121,121,121)] placeholder-[rgb(121,121,121)] text-black rounded-lg px-4 focus:outline-none focus:ring-0"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
 
-          {/* Forgot Password Link */}
-          <div className="flex justify-between items-left mb-6">
-            <div>
-              <a
-                href="#"
-                className="text-[rgb(33,88,192)] text-sm font-semibold hover:underline"
+              <div className="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-2 sm:space-y-0">
+                <a
+                  href="#"
+                  className="text-[rgb(33,88,192)] text-sm font-semibold hover:underline"
+                >
+                  Forgot password?
+                </a>
+                <a
+                  href="/admin"
+                  className="text-[rgb(33,88,192)] md:w-6/12 text-sm font-bold hover:underline"
+                >
+                  Admin
+                </a>
+              </div>
+
+              <button
+                type="submit"
+                className={`w-full md:w-2/3 h-12 bg-[rgb(11,31,157)] hover:bg-blue-600 text-white font-semibold rounded-3xl focus:outline-none ${
+                  loading ? "bg-gray-500 cursor-not-allowed" : ""
+                }`}
+                disabled={loading}
               >
-                Forgot password?
-              </a>
-            </div>
-            <div className="text-center font-bold">
-              <a
-                href="/admin"
-                className="text-[rgb(33,88,192)] text-sm hover:underline"
-              >
-                Admin
-              </a>
-            </div>
-          </div>
+                {loading ? "Logging in..." : "Sign in"}
+              </button>
 
-          {/* Sign In Button */}
-          <button
-            type="submit"
-            className={`w-full h-10 bg-[rgb(11,31,157)] hover:bg-blue-600 text-white font-semibold rounded-3xl focus:outline-none ${
-              loading ? "bg-gray-500 cursor-not-allowed" : ""
-            }`}
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Sign in"}
-          </button>
-          <div className="mt-4 ">
-            <p className="text-sm flex text-[rgb(121,121,121)]  justify-between">
-              New to FreeADS?{" "}
-              <Link
-                to="/sign-up"
-                className="text-[rgb(54,92,172)] hover:underline"
-              >
-                Sign up for free
-              </Link>
-            </p>
+              <div className="mt-6 text-center sm:text-left">
+                <p className="text-sm text-[rgb(121,121,121)] flex flex-col sm:flex-row items-center justify-center sm:justify-between space-y-2 sm:space-y-0">
+                  New to FreeADS?{" "}
+                  <Link
+                    to="/sign-up"
+                    className="text-[rgb(54,92,172)] md:w-7/12  hover:underline ml-2"
+                  >
+                    Sign up for free
+                  </Link>
+                </p>
+              </div>
+            </form>
           </div>
-        </form>
-
-        {/* Sign Up Link */}
+        </div>
       </div>
 
       <ToastContainer />
