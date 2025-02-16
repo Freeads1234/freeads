@@ -62,9 +62,9 @@ function Signin() {
   return (
     <div className="min-h-screen w-full bg-white">
       {/* Logo */}
-      <div className="absolute top-0 left-0 w-full p-4 z-10">
+      <div className="absolute top-0 left-0 text-start px-8 py-3 z-10">
         <Link to="/">
-          <img src={logo} alt="Logo" className="w-40 h-auto" />
+          <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
         </Link>
       </div>
 

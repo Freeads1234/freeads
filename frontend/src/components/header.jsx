@@ -7,56 +7,44 @@ import { ToastContainer, toast } from "react-toastify";
 import UserProfile from "./profile";
 
 function Header() {
-  const [showMenu, setShowMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClick = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const navigate = useNavigate();
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
-  const toggleUserModal = () => {
-    setShowUserModal(!showUserModal);
-  };
-
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userdata, setData] = useState(null);
 
-  useEffect(
-    () => {
-      const checkAuthStatus = async () => {
-        try {
-          const response = await fetch(`${BACKEND_URL}/api/login-user/`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          });
+  const navigate = useNavigate();
 
-          if (response.ok) {
-            const data = await response.json();
-            setIsAuthenticated(data?.loggedIn);
-            console.log("userdata", data);
-            setData(data);
-          } else {
-            setIsAuthenticated(false);
-          }
-        } catch (error) {
+  const toggleModal = () => setShowModal(!showModal);
+  const toggleUserModal = () => setShowUserModal(!showUserModal);
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+  const toggleUserDropdown = () => setUserDropdownOpen(!userDropdownOpen);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/login-user/`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setIsAuthenticated(data?.loggedIn);
+          setData(data);
+        } else {
           setIsAuthenticated(false);
         }
-      };
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
 
-      checkAuthStatus();
-    },
-    [],
-    [isAuthenticated]
-  );
+    checkAuthStatus();
+  }, []);
 
   const handleButtonClick = () => {
     if (!isAuthenticated) {
@@ -65,207 +53,247 @@ function Header() {
       toggleModal();
     }
   };
+
   const handleLogOut = async () => {
     try {
-      // Make the logout request to the backend
       const response = await fetch(`${BACKEND_URL}/api/logout/`, {
-        method: "POST", // assuming a GET request for logout
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Include the access token if needed
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
 
       if (response.ok) {
-        // On successful logout, clear tokens and update the state
         localStorage.removeItem("accessToken");
-        document.cookie =
-          "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // Expire the refresh token cookie
+        document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         toast.success("Logged out successfully!");
         setIsAuthenticated(false);
-        window.location.reload(); // Optionally redirect to home page or sign-in page
+        window.location.reload();
       } else {
-        // Handle errors from the server
         const data = await response.json();
         toast.error(data?.message || "Logout failed, please try again");
       }
     } catch (error) {
-      // Handle any network or unexpected errors
       toast.error("Something went wrong. Please try again later.");
     }
   };
 
   return (
     <>
-      <header className="flex flex-row items-center justify-between mx-10 p-2 bg-white ">
-        <div>
-          <Link to="/">
-            <img src={logo} alt="Logo" className="w-72 h-18 mx-auto" />
-          </Link>
-        </div>
+      <header className="relative bg-white px-4 sm:px-6 lg:px-10 py-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <Link to="/">
+                <img src={logo} alt="Logo" className="w-56 h-18 mx-auto" />
+              </Link>
+            </div>
+            
 
-        <nav className="hidden sm:flex justify-between items-center gap-4 mt-5">
-          <Link to="/" className="hover:text-gray-500 text-black self-center">
-            HOME
-          </Link>
-          <button
-            type="button"
-            className="text-white bg-[#f32525] hover:bg-red-400 focus:ring-4 focus:outline-none focus:bg-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 mb-2"
-            onClick={handleButtonClick}
-          >
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
+            {/* Mobile menu button */}
+            <button
+              type="button"
+              className="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              onClick={toggleMobileMenu}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-            ADD LISTING
-          </button>
-          {!isAuthenticated && (
-            <div className="items-center justify-center">
-              <div className="">
-                <Link to="/sign-in" className="flex text-gray-500">
+              <span className="sr-only">Open main menu</span>
+              {!mobileMenuOpen ? (
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              ) : (
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </button>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden sm:flex items-center space-x-4">
+              <Link to="/" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                HOME
+              </Link>
+              
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-[#f32525] hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                onClick={handleButtonClick}
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-5 h-5 mr-2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                ADD LISTING
+              </button>
+
+              {!isAuthenticated ? (
+                <Link
+                  to="/sign-in"
+                  className="inline-flex items-center text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
                     fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.5"
                     stroke="currentColor"
-                    className="size-6"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                      strokeWidth={2}
+                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                     />
                   </svg>
                   Sign In
                 </Link>
-              </div>
-            </div>
-          )}
-          {isAuthenticated && (
-            <div className="relative font-[sans-serif] w-max mx-auto mr-4">
-              <button
-                type="button"
-                id="dropdownToggle"
-                className="px-4 py-2 border border-gray-200 flex items-center rounded-full text-[#333] text-sm  outline-none "
-                onClick={handleClick}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  className="w-4 h-4 mr-3"
-                  viewBox="0 0 512 512"
-                >
-                  <path d="M337.711 241.3a16 16 0 0 0-11.461 3.988c-18.739 16.561-43.688 25.682-70.25 25.682s-51.511-9.121-70.25-25.683a16.007 16.007 0 0 0-11.461-3.988c-78.926 4.274-140.752 63.672-140.752 135.224v107.152C33.537 499.293 46.9 512 63.332 512h385.336c16.429 0 29.8-12.707 29.8-28.325V376.523c-.005-71.552-61.831-130.95-140.757-135.223zM446.463 480H65.537V376.523c0-52.739 45.359-96.888 104.351-102.8C193.75 292.63 224.055 302.97 256 302.97s62.25-10.34 86.112-29.245c58.992 5.91 104.351 50.059 104.351 102.8zM256 234.375a117.188 117.188 0 1 0-117.188-117.187A117.32 117.32 0 0 0 256 234.375zM256 32a85.188 85.188 0 1 1-85.188 85.188A85.284 85.284 0 0 1 256 32z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-3 fill-gray-400 inline ml-3"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
+              ) : (
+                <div className="relative">
+                  <button
+                    onClick={toggleUserDropdown}
+                    className="flex items-center space-x-2 px-3 py-2 rounded-full border border-gray-200 hover:bg-gray-50"
+                  >
+                    <img
+                      src={userdata?.profile_pic}
+                      alt="Profile"
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <svg
+                      className={`w-4 h-4 transition-transform ${userDropdownOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
 
-              <ul
-                id="dropdownMenu"
-                className={`absolute w-72 flex flex-col mt-1 h-72 -ml-60 shadow-lg z-[9999] bg-[rgb(249,247,245)] py-2 min-w-full rounded-lg max-h-96 overflow-auto ${
-                  isOpen ? "block" : "hidden"
-                }`}
-              >
+                  {userDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+                      <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                        {userdata?.name}
+                      </div>
+                      <button
+                        onClick={() => {
+                          toggleUserModal();
+                          setUserDropdownOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        View Profile
+                      </button>
+                      <button
+                        onClick={handleLogOut}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </nav>
+          </div>
+
+          {/* Mobile Navigation */}
+          {mobileMenuOpen && (
+            <div className="sm:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                <Link
+                  to="/"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  HOME
+                </Link>
+                
                 <button
-                  onClick={handleClick}
-                  className="py-2.5 px-5 self-end w-16 h-10 hover:bg-gray-100 text-[#333] text-sm cursor-pointer"
+                  type="button"
+                  className="w-full text-left flex items-center px-3 py-2 rounded-md text-base font-medium text-white bg-[#f32525] hover:bg-red-400"
+                  onClick={() => {
+                    handleButtonClick();
+                    setMobileMenuOpen(false);
+                  }}
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="size-6"
+                    className="w-5 h-5 mr-2"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M6 18 18 6M6 6l12 12"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                     />
                   </svg>
+                  ADD LISTING
                 </button>
 
-                <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
-                  <img
-                    src={userdata?.profile_pic}
-                    className="w-11 h-11 mr-3 rounded-full shrink-0"
-                    alt="Profile"
-                  />
-                  {userdata?.name}
-                </li>
-                <hr className="w-4/5 mx-auto my-2 border-t border-gray-300" />
-                <button onClick={toggleUserModal}>
-                  <li className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#717171] text-sm cursor-pointer">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 28 28"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="size-6"
+                {isAuthenticated ? (
+                  <>
+                    <div className="px-3 py-2 border-t border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={userdata?.profile_pic}
+                          alt="Profile"
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div className="text-sm font-medium text-gray-700">
+                          {userdata?.name}
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        toggleUserModal();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                      />
-                    </svg>
-                    View profile
-                  </li>
-                </button>
-                <hr className="w-4/5 mx-auto my-2 border-t border-gray-300" />
-
-                <li
-                  className="py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#717171] text-sm cursor-pointer"
-                  onClick={handleLogOut}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 28 28"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-6"
+                      View Profile
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleLogOut();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/sign-in"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
-                    />
-                  </svg>
-                  Sign Out
-                </li>
-              </ul>
+                    Sign In
+                  </Link>
+                )}
+              </div>
             </div>
           )}
-        </nav>
+        </div>
       </header>
 
-      {/* Modal Component */}
+      {/* Modals */}
       {showModal && (
         <AdCreateModal
           showModal={showModal}
-          setShowModal={setShowModal} // Pass the setter function to close the modal
+          setShowModal={setShowModal}
         />
       )}
       {showUserModal && (

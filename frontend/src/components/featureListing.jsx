@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ShimmerFeature from "./shimmerFeature";
 import { BACKEND_URL } from "../config";
 import ListingCard from "./listingCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const FeaturedListings = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scrollContainerRef = useRef(null);
+  const [showLeftScroll, setShowLeftScroll] = useState(false);
+  const [showRightScroll, setShowRightScroll] = useState(false);
 
   // Fetch data from the API
   useEffect(() => {
     fetch(`${BACKEND_URL}/api/ads/`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Data in the featured list:", data);
-
-        // Filter only non-featured listings and select the last 4
         const featuredListings = data
-          .filter((item) => item.is_featured === false) // Filter non-featured items
-          .slice(-4) // Get the last 4 non-featured listings
+          .filter((item) => item.is_featured === false)
           .map((item) => ({
-            image: item.ads_images[0]?.image, // Use actual image URL or fallback to placeholder
+            image: item.ads_images[0]?.image,
             category: item.category_name,
             details: item.details,
             price: item.cost,
@@ -27,9 +27,8 @@ const FeaturedListings = () => {
             contact: item.contact_details,
             state: item.state_name,
             caption: item.caption,
-            isFeatured: item.is_featured, // Assuming the API gives `is_featured` directly
+            isFeatured: item.is_featured,
           }));
-        console.log("featured list:", featuredListings);
 
         setListings(featuredListings);
         setLoading(false);
@@ -40,12 +39,34 @@ const FeaturedListings = () => {
       });
   }, []);
 
-  const getValidImage = (adsImages) => {
-    // Find the first image that is not null
-    const validImage = adsImages.find(
-      (imageObj) => imageObj !== null && imageObj.url !== null
-    );
-    return validImage ? validImage.url : "/path/to/placeholder/image.jpg"; // Return a placeholder image if no valid image is found
+  // Check scroll buttons visibility
+  useEffect(() => {
+    const checkScroll = () => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        setShowLeftScroll(scrollLeft > 0);
+        setShowRightScroll(scrollLeft < scrollWidth - clientWidth - 1);
+      }
+    };
+
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', checkScroll);
+      // Initial check
+      checkScroll();
+      
+      return () => scrollContainer.removeEventListener('scroll', checkScroll);
+    }
+  }, [listings]);
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = direction === 'left' ? -300 : 300;
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    }
   };
 
   if (loading) {
@@ -53,41 +74,77 @@ const FeaturedListings = () => {
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto flex flex-col p-6">
-      {/* Heading */}
-      <div className="flex justify-center items-center mb-8">
-        <h2 className="text-xl font-normal tracking-widest text-gray-500 text-center mb-0">
+    <div className="max-w-screen-xl mx-auto p-4 sm:p-6">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row justify-center items-center mb-6">
+        <h2 className="text-lg sm:text-xl font-normal tracking-widest text-gray-500 mb-2 sm:mb-0">
           FEATURED &gt; LISTINGS
         </h2>
-      </div>
-      <a
-        href="/all-ad"
-        className="text-blue-500 text-sm flex items-center justify-end hover:underline pb-3"
-      >
-        <span>View All</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-4 h-4 ml-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+        <a
+          href="/all-ad"
+          className="text-blue-500 text-sm flex items-center hover:underline"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </a>
-      {/* Listings */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8">
-        {listings.map((listing, index) => (
-          <ListingCard key={index} listing={listing} />
-        ))}
+        </a>
       </div>
+
+      {/* Listings Section with Scroll Controls */}
+      <div className="relative">
+        {/* Left Scroll Button */}
+        {showLeftScroll && (
+          <button
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 -ml-4"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-600" />
+          </button>
+        )}
+
+        {/* Right Scroll Button */}
+        {showRightScroll && (
+          <button
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 -mr-4"
+          >
+            <ChevronRight className="w-6 h-6 text-gray-600" />
+          </button>
+        )}
+
+        {/* Scrollable Container */}
+        <div 
+          ref={scrollContainerRef}
+          className="overflow-x-auto scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <div className="flex gap-4 sm:gap-6 min-w-min">
+            {listings.map((listing, index) => (
+              <div key={index} className="w-[280px] sm:w-[300px] flex-shrink-0">
+                <ListingCard listing={listing} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Optional: Scroll Indicator Dots */}
+      {listings.length > 4 && (
+        <div className="flex justify-center gap-2 mt-4">
+          {Array.from({ length: Math.ceil(listings.length / 4) }).map((_, index) => (
+            <div
+              key={index}
+              className="w-2 h-2 rounded-full bg-gray-300"
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
+
+// Add these styles to your CSS to hide scrollbar
+const styles = `
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 export default FeaturedListings;
