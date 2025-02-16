@@ -11,6 +11,8 @@ import { BACKEND_URL } from "./config"; // Make sure to import your backend URL 
 import { toast } from "react-toastify";
 import AdListing from "./components/adListing";
 import AdDetailPage from "./components/adDetailPage";
+import JobPostingForm from "./components/JobPostingForm";
+import PropertyListingForm from "./components/propertyListingForm";
 
 
 function App() {
@@ -52,9 +54,10 @@ function App() {
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/ad-create" element={<AdCreate />} />
-            <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="/job" element={<JobPostingForm />} />
+            <Route path="/property" element={ <PropertyListingForm/>} />
             <Route path="/all-ad" element={<AdListing/>} />
-            <Route path="/ad/:id" element={<AdDetailPage/>} />  {/* Match product detail by ID */}
+            <Route path="/ad/:id" element={<AdDetailPage/>} />  
           </Routes>
         </BrowserRouter>
       </AuthContext.Provider>
