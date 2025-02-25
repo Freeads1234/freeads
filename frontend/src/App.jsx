@@ -13,6 +13,7 @@ import AdListing from "./components/adListing";
 import AdDetailPage from "./components/adDetailPage";
 import JobPostingForm from "./components/JobPostingForm";
 import PropertyListingForm from "./components/propertyListingForm";
+import ProductSellForm from "./components/ProductSellForm";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/ad-create" element={<AdCreate />} />
             <Route path="/job" element={<JobPostingForm />} />
+            <Route path="/ProductSell" element={<ProductSellForm/>} />
             <Route path="/property" element={ <PropertyListingForm/>} />
             <Route path="/all-ad" element={<AdListing/>} />
             <Route path="/ad/:id" element={<AdDetailPage/>} />  

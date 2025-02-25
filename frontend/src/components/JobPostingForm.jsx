@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar } from 'lucide-react';
+import { DatePicker } from 'antd';
 
 const JobPostingForm = () => {
   // const [selectedDates, setSelectedDates] = useState({
@@ -139,13 +140,37 @@ const JobPostingForm = () => {
         </div>
 
         {/* Date Selection */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">SELECT AD DURATION</label>
-          <div className="mt-1 flex items-center space-x-2 border border-gray-300 rounded-md p-2">
-            <Calendar className="h-5 w-5 text-gray-400" />
-            {/* <span>{selectedDates.start} — {selectedDates.end}</span> */}
+         
+      <div className="mb-4">
+        <div className="text-sm font-semibold mb-2">SELECT AD DURATION</div>
+        {/* <div className="flex items-center mb-2">
+          <span className="text-sm">{selectedDates.start} — {selectedDates.end}</span>
+        </div> */}
+
+        <div className="w-full h-1 bg-blue-500 mb-4"></div>
+
+        {/* Date Picker */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <div className="text-center font-medium mb-2">Start Date</div>
+            <DatePicker
+              //value={selectedDates.start}
+              //onChange={handleStartDateChange}
+              className="w-full"
+            />
+          </div>
+
+          <div>
+            <div className="text-center font-medium mb-2">End Date</div>
+            <DatePicker
+              //value={selectedDates.end}
+              //onChange={handleEndDateChange}
+              className="w-full"
+            />
           </div>
         </div>
+      </div>
+
 
         {/* Submit Button */}
         <div>
