@@ -14,6 +14,10 @@ import AdDetailPage from "./components/adDetailPage";
 import JobPostingForm from "./components/JobPostingForm";
 import PropertyListingForm from "./components/propertyListingForm";
 import ProductSellForm from "./components/ProductSellForm";
+import VehicleForm from "./components/vehicleForm";
+import FashionForm from "./components/fashionForm";
+import GeneralForm from "./components/generalForm";
+import HomeDecorationForm from "./components/homeDecorationForm";
 
 
 function App() {
@@ -57,6 +61,10 @@ function App() {
             <Route path="/ad-create" element={<AdCreate />} />
             <Route path="/job" element={<JobPostingForm />} />
             <Route path="/ProductSell" element={<ProductSellForm/>} />
+            <Route path="/general" element={<GeneralForm/>} />
+            <Route path="/homeDecoration" element={<HomeDecorationForm/>} />
+            <Route path="/fashion" element={<FashionForm/>} />
+            <Route path="/vehicle" element={<VehicleForm/>} />
             <Route path="/property" element={ <PropertyListingForm/>} />
             <Route path="/all-ad" element={<AdListing/>} />
             <Route path="/ad/:id" element={<AdDetailPage/>} />  
